@@ -1,0 +1,36 @@
+@{
+    ViewBag.Title = "Customer Login";
+}
+
+<h4>Customer Login</h4>
+
+<div class="hero-unit" >
+
+    <div style="padding-bottom:10px">
+        <table class="table-condensed">
+
+            <tr>
+                <td colspan="2">This login function will simulate authenication using FORMS Authenication</td>
+            </tr>
+
+            <tr>
+                <td>
+                    Login Name:&nbsp; <input id="LoginName" type="text" data-bind="value: LoginName" />                                        
+                </td>
+            </tr>                 
+        </table>
+    </div>
+
+
+    <div style="clear:both"></div>
+
+    <input id="btnLogin" type="button" value="Login" data-bind="click: Login" class="btn btn-primary btn-medium" />
+  
+    <div id="MessageBox" data-bind="html: MessageBox" style="padding-bottom:10px; padding-top:10px"></div>
+
+</div>
+
+
+<script src="@Url.Content("~/ViewModels/Customers/CustomerLogin.js")" type="text/javascript"></script>
+
+

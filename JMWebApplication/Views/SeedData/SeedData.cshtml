@@ -1,0 +1,27 @@
+@{
+    ViewBag.Title = "Seed Data";
+}
+
+<h4>Seed Data</h4>
+
+<div class="hero-unit" data-bind="visible: DisplayContent" style="display:none">
+
+    
+    <table>
+    <tr>
+        <td>This function will reset your database with a fresh data.</td>
+    </tr>
+    <tr>
+        <td>
+            <input id="btnCreate" type="button" value="Seed Data" data-bind="click: SeedData" class="btn btn-primary btn-medium" />
+        </td>
+    </tr>
+    </table>
+ 
+    <div id="MessageBox" data-bind="html: MessageBox" style="padding-bottom:10px; padding-top:10px"></div>
+
+</div>
+
+
+<script src="@Url.Content("~/ViewModels/SeedData/SeedData.js")" type="text/javascript"></script>
+

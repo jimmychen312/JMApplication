@@ -1,0 +1,280 @@
+@model JM.ViewModels.Customers.CustomerMaintenanceViewModel
+
+@{
+    ViewBag.Title = "Customer Maintenance";
+}
+
+<h4>Customer Maintenance</h4>
+
+<div class="hero-unit" data-bind="visible: DisplayContent" style="display:none">
+
+    <div style="padding-bottom:10px">
+        Customer Information
+        <table class="table-condensed">
+
+            <tr>
+                <td class="input-label">
+                    <label>First Name:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="FirstName" type="text" data-bind="value: FirstName" />
+                        <span class="required-indicator">*</span>
+                    </div>
+                    <div class="display-div" data-bind="text: FirstName, visible: DisplayMode "></div>
+                </td>
+
+                <td class="input-label">
+                    <label>Last Name:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="LastName" type="text" data-bind="value: LastName" />
+                        <span class="required-indicator">*</span>
+                    </div>
+                    <div class="display-div" data-bind="text: LastName, visible: DisplayMode "></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="input-label">
+                    <label>Email Address:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="EmailAddress" type="text" data-bind="value: EmailAddress" />
+                        <span class="required-indicator">*</span>
+                    </div>
+                    <div class="display-div" data-bind="text: EmailAddress, visible: DisplayMode "></div>
+                </td>
+
+                <td class="input-label">
+                    <label>Phone Number:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="PhoneNumber" type="text" data-bind="value: PhoneNumber " />
+                    </div>
+                    <div class="display-div" data-bind="text: PhoneNumber, visible: DisplayMode "></div>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="PhoneNumber" type="text" data-bind="value: PhoneNumber " />
+                        <span class="required-indicator">*</span>
+                    </div>
+                    <div class="display-div" data-bind="text: PhoneNumber, visible: DisplayMode "></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="input-label"></td>
+                <td class="input-box"></td>
+
+                <td class="input-label">
+                    <label>TelePhone:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="TelePhone" type="text" data-bind="value: TelePhone " />
+                        <span class="required-indicator">*</span>
+                    </div>
+                    <div class="display-div" data-bind="text: TelePhone, visible: DisplayMode "></div>
+                </td>
+            </tr>
+
+
+        </table>
+    </div>
+
+    <div style="padding-bottom:10px">
+        Billing Address
+
+        <table class="table-condensed">
+
+            <tr>
+                <td class="input-label">
+                    <label>Address:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="Address" type="text" data-bind="value: Address" />
+                    </div>
+                    <div class="display-div" data-bind="text: Address, visible: DisplayMode "></div>
+                </td>
+
+                <td class="input-label">
+                    <label>City:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="City" type="text" data-bind="value: City" />
+                    </div>
+                    <div class="display-div" data-bind="text: City, visible: DisplayMode "></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="input-label">
+                    <label>Region:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="Region" type="text" data-bind="value: Region" />
+                    </div>
+                    <div class="display-div" data-bind="text: Region, visible: DisplayMode "></div>
+                </td>
+
+                <td class="input-label">
+                    <label>Postal Code:</label>
+                </td>
+
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="PostalCode" type="text" data-bind="value: PostalCode" />
+                    </div>
+                    <div class="display-div" data-bind="text: PostalCode, visible: DisplayMode "></div>
+                </td>
+
+
+            </tr>
+            <tr>
+
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td class="input-label">
+                    <label>Country:</label>
+                </td>
+
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="Country" type="text" data-bind="value: Country" />
+                    </div>
+                    <div class="display-div" data-bind="text: Country, visible: DisplayMode "></div>
+                </td>
+            </tr>
+
+
+
+        </table>
+    </div>
+
+
+    <div style="padding-bottom:10px">
+        Credit Information
+
+        <table class="table-condensed">
+
+            <tr>
+                <td class="input-label">
+                    <label>Payment Type:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <select id="PaymentTypeID" data-bind="options: PaymentTypes, optionsText: 'Description', optionsValue: 'PaymentTypeID', value: PaymentTypeID, optionsCaption: 'Select a Payment Type...'"></select>
+                    </div>
+                    <div class="display-div" data-bind="text: PaymentTypeDescription, visible: DisplayMode "></div>
+                </td>
+                <td class="input-label">
+                    <label>Credit Card Number:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="CreditCardNumber" type="text" data-bind="value: CreditCardNumber" />
+                    </div>
+                    <div class="display-div" data-bind="text: CreditCardNumber, visible: DisplayMode "></div>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td class="input-label">
+                    <label>Credit Limit:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="CreditLimit" type="text" data-bind="value: CreditLimit" />
+                    </div>
+                    <div class="display-div" data-bind="text: CreditLimit, visible: DisplayMode "></div>
+                </td>
+
+                <td class="input-label">
+                    <label>Expiration Date:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="CreditCardExpirationDate" type="text" data-bind="value: CreditCardExpirationDate" />
+                    </div>
+                    <div class="display-div" data-bind="text: CreditCardExpirationDate, visible: DisplayMode "></div>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td style="width: 110px;">
+                    <label>&nbsp;</label>
+                </td>
+                <td style="width:200px;">
+                    &nbsp;
+                </td>
+
+                <td class="input-label">
+                    <label>Security Code:</label>
+                </td>
+                <td class="input-box">
+                    <div data-bind="visible: EditMode" class="edit-div">
+                        <input id="CreditCardSecurityCode" type="text" data-bind="value: CreditCardSecurityCode " />
+                    </div>
+                    <div class="display-div" data-bind="text: CreditCardSecurityCode, visible: DisplayMode "></div>
+                </td>
+
+            </tr>
+            <tr></tr>
+
+        </table>
+
+
+    </div>
+
+    <div style="clear:both"></div>
+
+    <span data-bind="visible: EnableCreateButton">
+        <input id="btnCreate" type="button" value="Create" data-bind="click: CreateCustomer" class="btn btn-primary btn-default" />
+    </span>
+
+    <span data-bind="visible: EnableUpdateButton">
+        <input id="btnUpdate" type="button" value="Update" data-bind="click: UpdateCustomer" class="btn btn-primary btn-default" />
+    </span>
+
+    <span data-bind="visible: EnableEditButton">
+        <input id="btnEdit" type="button" value="Edit" data-bind="click: EditCustomer" class="btn btn-primary btn-default" />
+    </span>
+
+    <span data-bind="visible: EnableCreateAnotherCustomerButton">
+        <input id="btnCreateAnotherCustomer" type="button" value="Create Another Customer" data-bind="click: CreateAnotherCustomer" class="btn btn-primary btn-default" />
+    </span>
+
+
+    <span data-bind="visible: EnableCancelChangesButton">
+        <input id="btnCancelChanges" type="button" value="Cancel Changes" data-bind="click: CancelChanges" class="btn btn-primary btn-default" />
+    </span>
+
+    <span data-bind="visible: EnableApproveButton">
+        <input id="btnApprove" type="button" value="Approve" class="btn btn-primary btn-default" />
+    </span>
+
+    <div id="MessageBox" data-bind="html: MessageBox" style="padding-bottom:10px; padding-top:10px"></div>
+
+</div>
+
+
+<script type="text/javascript">
+    var customerID = "@Model.Customer.CustomerID";
+
+    $("#CreditCardExpirationDate").datepicker({
+        showOn: "button",
+        buttonImage: '/img/icon-calendar.gif',
+        buttonImageOnly: true,
+        changeMonth: true,
+        changeYear: true
+    });
+
+</script>
+
+<script src="@Url.Content("~/ViewModels/Customers/CustomerMaintenance.js")" type="text/javascript"></script>
