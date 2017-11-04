@@ -22,8 +22,7 @@ namespace JMApplication
                 "~/Content/themes/bootstrap/easyui.css"));
             bundles.Add(new StyleBundle("~/Content/themes/metro/css").Include(
                 "~/Content/themes/metro/easyui.css"));
-
-
+            
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));

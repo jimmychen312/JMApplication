@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SysSampleApplicationService.cs" />
+    <Compile Include="SysLogApplicationService.cs" />
     <Compile Include="SysModuleApplicationService.cs" />
     <Compile Include="CustomerApplicationService.cs" />
     <Compile Include="CustomerBusinessRules.cs" />

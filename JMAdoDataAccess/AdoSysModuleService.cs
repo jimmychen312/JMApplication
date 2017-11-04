@@ -121,6 +121,7 @@ namespace JMAdoDataAccess
                 sysModule.Name = dataReader.GetString("Name");
                 sysModule.EnglishName = dataReader.GetString("EnglishName");
                 sysModule.ParentId = dataReader.GetString("ParentId");
+                sysModule.Url = dataReader.GetString("Url");
                 sysModule.Iconic = dataReader.GetString("Iconic");
                 sysModule.Sort = dataReader.GetInt32("Sort");
                 sysModule.Remark = dataReader.GetString("Remark");

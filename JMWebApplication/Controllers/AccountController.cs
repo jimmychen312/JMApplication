@@ -10,14 +10,21 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JMWebApplication.Models;
 using JMWebApplication;
+using JMModels;
 
 namespace JMWebApplication.Controllers
-{
+{   
     [Authorize]
     public class AccountController : Controller
     {
+        
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+         
+        
+
 
         public AccountController()
         {
