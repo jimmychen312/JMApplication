@@ -8,6 +8,23 @@ namespace JMApplication
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+
+            bundles.Add(new ScriptBundle("~/bundles/common").Include(
+                       "~/Scripts/common.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/home").Include(
+                       "~/Scripts/home.js"));
+            
+            //easyui
+            bundles.Add(new StyleBundle("~/Content/themes/default/css").Include(
+                "~/Content/themes/default/easyui.css"));
+            bundles.Add(new StyleBundle("~/Content/themes/bootstrap/css").Include(
+                "~/Content/themes/bootstrap/easyui.css"));
+            bundles.Add(new StyleBundle("~/Content/themes/metro/css").Include(
+                "~/Content/themes/metro/easyui.css"));
+
+
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 

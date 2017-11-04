@@ -13,7 +13,7 @@ using JMEFDataAccess;
 using JMDataServiceInterface;
 using JM.Filters;
 using System.Web.Security;
-using JMApplication.Models;
+//using JMApplication.Models;
 
 namespace JMWebApplication.Controllers
 {
@@ -123,7 +123,7 @@ namespace JMWebApplication.Controllers
         /// <returns></returns>
         [WebApiAuthenication]
         //[HttpGet("GetCustomerMaintenanceInformation")]
-        [HttpGet]
+        [HttpGet,Route("GetCustomerMaintenanceInformation")]
         public HttpResponseMessage GetCustomerMaintenanceInformation(HttpRequestMessage request, Guid customerID)
         {
 
@@ -169,7 +169,7 @@ namespace JMWebApplication.Controllers
         /// <returns></returns>
         [WebApiAuthenication]
         //[HttpPost("create")]
-        [HttpPost]
+        [HttpPost,Route("create")]
         public HttpResponseMessage CreateCustomer(HttpRequestMessage request, [FromBody] CustomerMaintenanceDTO customerDTO)
         {
             TransactionalInformation transaction;
@@ -220,7 +220,7 @@ namespace JMWebApplication.Controllers
         /// <returns></returns>
         [WebApiAuthenication]
         //[HttpPost("update")]
-        [HttpPost]
+        [HttpPost,Route("update")]
         public HttpResponseMessage UpdateCustomer(HttpRequestMessage request, [FromBody] CustomerMaintenanceDTO customerDTO)
         {
             TransactionalInformation transaction;

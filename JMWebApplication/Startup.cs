@@ -1,12 +1,15 @@
-﻿using Owin;
+﻿
+using Microsoft.Owin;
+using Owin;
 
+[assembly: OwinStartupAttribute(typeof(JMWebApplication.Startup))]
 namespace JMWebApplication
 {
-    public partial class Startup 
+    public partial class Startup
     {
-        public void Configuration(IAppBuilder app) 
+        public void Configuration(IAppBuilder app)
         {
-            //ConfigureAuth(app);
+            ConfigureAuth(app);
         }
     }
 }

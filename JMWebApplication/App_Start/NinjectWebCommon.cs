@@ -118,8 +118,9 @@ namespace JMWebApplication.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMEFDataAccess.EFCustomerService>();
-            //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMAdoDataAccess.AdoCustomerService>();
+            //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMEFDataAccess.EFCustomerService>();
+            kernel.Bind<JMDataServiceInterface.ISysModuleDataService>().To<JMAdoDataAccess.AdoSysModuleService>();
+            kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMAdoDataAccess.AdoCustomerService>();
             //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMMockedDataAccess.MockedCustomerService>();
         }        
     }

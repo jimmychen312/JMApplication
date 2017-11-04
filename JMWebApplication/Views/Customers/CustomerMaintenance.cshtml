@@ -50,21 +50,16 @@
                 <td class="input-label">
                     <label>Phone Number:</label>
                 </td>
+             
                 <td class="input-box">
                     <div data-bind="visible: EditMode" class="edit-div">
                         <input id="PhoneNumber" type="text" data-bind="value: PhoneNumber " />
                     </div>
                     <div class="display-div" data-bind="text: PhoneNumber, visible: DisplayMode "></div>
                 </td>
-                <td class="input-box">
-                    <div data-bind="visible: EditMode" class="edit-div">
-                        <input id="PhoneNumber" type="text" data-bind="value: PhoneNumber " />
-                        <span class="required-indicator">*</span>
-                    </div>
-                    <div class="display-div" data-bind="text: PhoneNumber, visible: DisplayMode "></div>
-                </td>
+                
             </tr>
-            <tr>
+            @*<tr>
                 <td class="input-label"></td>
                 <td class="input-box"></td>
 
@@ -78,7 +73,7 @@
                     </div>
                     <div class="display-div" data-bind="text: TelePhone, visible: DisplayMode "></div>
                 </td>
-            </tr>
+            </tr>*@
 
 
         </table>
@@ -235,28 +230,28 @@
     <div style="clear:both"></div>
 
     <span data-bind="visible: EnableCreateButton">
-        <input id="btnCreate" type="button" value="Create" data-bind="click: CreateCustomer" class="btn btn-primary btn-default" />
+        <input id="btnCreate" type="button" value="Create" data-bind="click: CreateCustomer" class="btn btn-primary btn-medium" />
     </span>
 
     <span data-bind="visible: EnableUpdateButton">
-        <input id="btnUpdate" type="button" value="Update" data-bind="click: UpdateCustomer" class="btn btn-primary btn-default" />
+        <input id="btnUpdate" type="button" value="Update" data-bind="click: UpdateCustomer" class="btn btn-primary btn-medium" />
     </span>
 
     <span data-bind="visible: EnableEditButton">
-        <input id="btnEdit" type="button" value="Edit" data-bind="click: EditCustomer" class="btn btn-primary btn-default" />
+        <input id="btnEdit" type="button" value="Edit" data-bind="click: EditCustomer" class="btn btn-primary btn-medium" />
     </span>
 
     <span data-bind="visible: EnableCreateAnotherCustomerButton">
-        <input id="btnCreateAnotherCustomer" type="button" value="Create Another Customer" data-bind="click: CreateAnotherCustomer" class="btn btn-primary btn-default" />
+        <input id="btnCreateAnotherCustomer" type="button" value="Create Another Customer" data-bind="click: CreateAnotherCustomer" class="btn btn-primary btn-medium" />
     </span>
 
 
     <span data-bind="visible: EnableCancelChangesButton">
-        <input id="btnCancelChanges" type="button" value="Cancel Changes" data-bind="click: CancelChanges" class="btn btn-primary btn-default" />
+        <input id="btnCancelChanges" type="button" value="Cancel Changes" data-bind="click: CancelChanges" class="btn btn-primary btn-medium" />
     </span>
 
     <span data-bind="visible: EnableApproveButton">
-        <input id="btnApprove" type="button" value="Approve" class="btn btn-primary btn-default" />
+        <input id="btnApprove" type="button" value="Approve" class="btn btn-primary btn-medium" />
     </span>
 
     <div id="MessageBox" data-bind="html: MessageBox" style="padding-bottom:10px; padding-top:10px"></div>

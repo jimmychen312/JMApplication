@@ -12,7 +12,7 @@
     <link href="@Url.Content("~/Content/themes/base/jquery.ui.all.css")" rel="stylesheet" type="text/css" />
 
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-3.2.1.min.js")
     @Scripts.Render("~/Scripts/jquery-ui-1.10.3.js")
     @Scripts.Render("~/Scripts/knockout-2.3.0.js")
     @Scripts.Render("~/Scripts/json_eval.js")
@@ -38,6 +38,7 @@
                     <li>@Html.ActionLink("主页", "Index", "Home")</li>
                     <li>@Html.ActionLink("关于", "About", "Home")</li>
                     <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Swagger Help", "", "Swagger", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("Create Customer", "CustomerMaintenance", "Customers")</li>
                     <li>@Html.ActionLink("Customer Inquiry", "CustomerInquiry", "Customers")</li>
                     <li>@Html.ActionLink("Seed Data", "SeedData", "SeedData")</li>

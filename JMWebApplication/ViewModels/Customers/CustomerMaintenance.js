@@ -3,8 +3,6 @@
     InitializeCustomerMaintenanceViewModel();
  
     GetCustomerInformation();
-  
-
 });
 
 function CustomerMaintenanceViewModel() {
@@ -127,7 +125,7 @@ function ChangesMade() {
 
 function CreateCustomer() {
   
-    MVC5WebApplication.DisplayAjax();
+    JMWebApplication.DisplayAjax();
 
     var customer = new PopulateCustomerInformation();
 
@@ -147,7 +145,7 @@ function CreateCustomer() {
 
 function UpdateCustomer() {
    
-    MVC5WebApplication.DisplayAjax();
+    JMWebApplication.DisplayAjax();
 
     var customer = new PopulateCustomerInformation();
 
@@ -202,7 +200,7 @@ function InitializeCustomerInformation()
 
 function BeginInitializeCustomerInformation()
 {
-    customerMaintenanceViewModel.CustomerID(MVC5WebApplication.SetEmptyGuid());
+    customerMaintenanceViewModel.CustomerID(JMWebApplication.SetEmptyGuid());
     customerMaintenanceViewModel.FirstName("");
     customerMaintenanceViewModel.LastName("");
     customerMaintenanceViewModel.Address("");
@@ -227,11 +225,11 @@ function BeginInitializeCustomerInformation()
 
 function UpdateCustomerCompleted(response) {
 
-    MVC5WebApplication.ClearValidationErrors();
+    JMWebApplication.ClearValidationErrors();
 
     customerMaintenanceViewModel.CustomerID(response.Customer.CustomerID);
     customerMaintenanceViewModel.MessageBox("");
-    customerMaintenanceViewModel.MessageBox(MVC5WebApplication.RenderInformationalMessage(response.ReturnMessage));
+    customerMaintenanceViewModel.MessageBox(JMWebApplication.RenderInformationalMessage(response.ReturnMessage));
     customerMaintenanceViewModel.EnableCreateButton(false);
     customerMaintenanceViewModel.EnableUpdateButton(false);
     customerMaintenanceViewModel.EnableEditButton(true);
@@ -243,18 +241,18 @@ function UpdateCustomerCompleted(response) {
 
     UpdateOriginalValues();
   
-    MVC5WebApplication.HideAjax();
+    JMWebApplication.HideAjax();
 
 
 }
 
 function CreateCustomerCompleted(response) {
 
-    MVC5WebApplication.ClearValidationErrors();
+    JMWebApplication.ClearValidationErrors();
 
     customerMaintenanceViewModel.CustomerID(response.Customer.CustomerID);
     customerMaintenanceViewModel.MessageBox("");
-    customerMaintenanceViewModel.MessageBox(MVC5WebApplication.RenderInformationalMessage(response.ReturnMessage));
+    customerMaintenanceViewModel.MessageBox(JMWebApplication.RenderInformationalMessage(response.ReturnMessage));
     customerMaintenanceViewModel.EnableCreateButton(false);
     customerMaintenanceViewModel.EnableUpdateButton(false);
     customerMaintenanceViewModel.EnableEditButton(true);
@@ -266,20 +264,20 @@ function CreateCustomerCompleted(response) {
 
     UpdateOriginalValues();
  
-    MVC5WebApplication.HideAjax();
+    JMWebApplication.HideAjax();
 
 }
 
 function RequestFailed(response) {
 
-    MVC5WebApplication.ClearValidationErrors();
+    JMWebApplication.ClearValidationErrors();
     var jsonResponse = jsonParse(response.responseText);
   
     customerMaintenanceViewModel.MessageBox("");
-    customerMaintenanceViewModel.MessageBox(MVC5WebApplication.RenderErrorMessage(jsonResponse.ReturnMessage));
-    MVC5WebApplication.RenderValidationErrors(jsonResponse.ValidationErrors);
+    customerMaintenanceViewModel.MessageBox(JMWebApplication.RenderErrorMessage(jsonResponse.ReturnMessage));
+    JMWebApplication.RenderValidationErrors(jsonResponse.ValidationErrors);
    
-    MVC5WebApplication.HideAjax();
+    JMWebApplication.HideAjax();
 
 }
 
@@ -319,8 +317,9 @@ function CancelChanges() {
 }
 
 function BeginCancelChanges()
+
 {
-    if (MVC5WebApplication.IsGuidEmpty(customerMaintenanceViewModel.CustomerID()) == true) {
+    if (JMWebApplication.IsGuidEmpty(customerMaintenanceViewModel.CustomerID()) == true) {
 
         customerMaintenanceViewModel.EnableCreateButton(true);
         customerMaintenanceViewModel.EnableUpdateButton(false);
@@ -358,7 +357,7 @@ function BeginCancelChanges()
 
 function UpdateOriginalValues() {
 
-    if (!MVC5WebApplication.IsGuidEmpty(customerMaintenanceViewModel.PaymentTypeID())) {
+    if (!JMWebApplication.IsGuidEmpty(customerMaintenanceViewModel.PaymentTypeID())) {
         SetPaymentTypeDescription(customerMaintenanceViewModel.PaymentTypeID())
     }
 
@@ -400,7 +399,7 @@ function ResetValues() {
     customerMaintenanceViewModel.CreditCardExpirationDate(customerMaintenanceViewModel.OriginalCreditCardExpirationDate());
     customerMaintenanceViewModel.CreditLimit(customerMaintenanceViewModel.OriginalCreditLimit());
 
-    if (!MVC5WebApplication.IsGuidEmpty(customerMaintenanceViewModel.PaymentTypeID())) {
+    if (!JMWebApplication.IsGuidEmpty(customerMaintenanceViewModel.PaymentTypeID())) {
         SetPaymentTypeDescription(customerMaintenanceViewModel.PaymentTypeID())
     }
 
@@ -409,7 +408,7 @@ function ResetValues() {
 function GetCustomerInformation()
 {
 
-    MVC5WebApplication.DisplayAjax();
+    JMWebApplication.DisplayAjax();
 
     var customer = new function () { };
     customer.CustomerID = customerMaintenanceViewModel.CustomerID();
@@ -443,7 +442,7 @@ function GetCustomerCompleted(response) {
 
     customerMaintenanceViewModel.PaymentTypes(response.PaymentTypes);
   
-    if (MVC5WebApplication.IsGuidEmpty(customerMaintenanceViewModel.CustomerID())==true)
+    if (JMWebApplication.IsGuidEmpty(customerMaintenanceViewModel.CustomerID())==true)
     {
         customerMaintenanceViewModel.MessageBox("");
         customerMaintenanceViewModel.EnableCreateButton(true);
@@ -455,7 +454,7 @@ function GetCustomerCompleted(response) {
         customerMaintenanceViewModel.DisplayMode(false);
         customerMaintenanceViewModel.EditMode(true);
 
-        MVC5WebApplication.HideAjax();
+        JMWebApplication.HideAjax();
 
         return;
     }
@@ -473,8 +472,8 @@ function GetCustomerCompleted(response) {
     customerMaintenanceViewModel.CreditCardSecurityCode(response.Customer.CreditCardSecurityCode);
     customerMaintenanceViewModel.CreditCardNumber(response.Customer.CreditCardNumber);
     customerMaintenanceViewModel.PaymentTypeID(response.Customer.PaymentTypeID);
-    customerMaintenanceViewModel.CreditCardExpirationDate(MVC5WebApplication.FormatJsonDate(response.Customer.CreditCardExpirationDate));
-    customerMaintenanceViewModel.CreditLimit(MVC5WebApplication.FormatCurrency(response.Customer.CreditLimit));
+    customerMaintenanceViewModel.CreditCardExpirationDate(JMWebApplication.FormatJsonDate(response.Customer.CreditCardExpirationDate));
+    customerMaintenanceViewModel.CreditLimit(JMWebApplication.FormatCurrency(response.Customer.CreditLimit));
     
     customerMaintenanceViewModel.MessageBox("");
     customerMaintenanceViewModel.EnableCreateButton(false);
@@ -486,13 +485,13 @@ function GetCustomerCompleted(response) {
     customerMaintenanceViewModel.DisplayMode(true);
     customerMaintenanceViewModel.EditMode(false);
 
-    if (!MVC5WebApplication.IsGuidEmpty(customerMaintenanceViewModel.PaymentTypeID()))
+    if (!JMWebApplication.IsGuidEmpty(customerMaintenanceViewModel.PaymentTypeID()))
     {
         SetPaymentTypeDescription(customerMaintenanceViewModel.PaymentTypeID())
     }
 
     UpdateOriginalValues();
 
-    MVC5WebApplication.HideAjax();
+    JMWebApplication.HideAjax();
 
 }

@@ -15,6 +15,7 @@ namespace JMEFDataAccess
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<SysModule> SysModuleModel { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -22,7 +23,10 @@ namespace JMEFDataAccess
 
             modelBuilder.Entity<Customer>().ToTable("dbo.Customers");
             modelBuilder.Entity<PaymentType>().ToTable("dbo.PaymentTypes");
+            modelBuilder.Entity<SysModule>().ToTable("dbo.SysModuleModel");
+            
         }
+                      
     }
 
 }

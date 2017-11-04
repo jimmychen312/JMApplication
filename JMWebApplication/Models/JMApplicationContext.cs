@@ -20,5 +20,6 @@ namespace JMApplication.Models
         }
 
         public System.Data.Entity.DbSet<JMModels.Customer> Customers { get; set; }
+        public DbSet<ApplicationIdentity>
     }
 }

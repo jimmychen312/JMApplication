@@ -10,7 +10,6 @@ namespace JMEFDataAccess
 {
     public class EFDataService : IDataService, IDisposable
     {
-
         JMDatabase _connection;
 
         public JMDatabase dbConnection

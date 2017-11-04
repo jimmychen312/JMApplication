@@ -12,7 +12,7 @@ namespace JMApplicationService
     public class CustomerApplicationService
     {
 
-        ICustomerDataService _customerDataService;
+        ICustomerDataService _customerDataService;  
 
         private ICustomerDataService CustomerDataService
         {
@@ -278,4 +278,6 @@ namespace JMApplicationService
         }
 
     }
+
+
 }
