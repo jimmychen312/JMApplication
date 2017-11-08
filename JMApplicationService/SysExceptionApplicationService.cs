@@ -8,42 +8,43 @@ using JMModels;
 
 namespace JMApplicationService
 {
-    public class SysLogApplicationService
+    public class SysExceptionApplicationService
     {
 
-        ISysLogDataService _sysLogDataService;
-        
-        private ISysLogDataService SysLogDataService
+        ISysExceptionDataService _sysExceptionDataService;
+        //ISysModuleDataService _sysModuleDataService;
+
+        private ISysExceptionDataService SysExceptionDataService
         {
-            get { return _sysLogDataService; }
+            get { return _sysExceptionDataService; }
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public SysLogApplicationService(ISysLogDataService dataService)
+        public SysExceptionApplicationService(ISysExceptionDataService dataService)
         {
-            _sysLogDataService = dataService;
+            _sysExceptionDataService = dataService;
         }
 
 
 
         /// <summary>
-        /// GetSysLog By Id
+        /// GetSysException By Id
         /// </summary>
         /// <param name="Id"></param>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public SysLog GetSysLogById(string Id, out TransactionalInformation transaction)
+        public SysException GetSysExceptionById(string Id, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             try
             {                
-                SysLogDataService.CreateSession();
-                SysLog sysLog = SysLogDataService.GetSysLogById(Id);
+                SysExceptionDataService.CreateSession();
+                SysException sysException = SysExceptionDataService.GetSysExceptionById(Id);
                 transaction.ReturnStatus = true;                
-                return sysLog;
+                return sysException;
             }
             catch (Exception ex)
             {
@@ -55,26 +56,26 @@ namespace JMApplicationService
             }
             finally
             {
-                SysLogDataService.CloseSession();                
+                SysExceptionDataService.CloseSession();                
             }
 
         }
 
 
         /// <summary>
-        /// SysLog Inquiry  
+        /// SysException Inquiry  
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public List<SysLogInquiry> SysLogInquiry(string queryStr, DataGridPagingInformation paging, out TransactionalInformation transaction)
+        public List<SysExceptionInquiry> SysExceptionInquiry(string queryStr, DataGridPagingInformation paging, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             try
             {
-                SysLogDataService.CreateSession();
-                List<SysLogInquiry> sysLogInquiry = SysLogDataService.SysLogInquiry(queryStr,paging);
+                SysExceptionDataService.CreateSession();
+                List<SysExceptionInquiry> sysExceptionInquiry = SysExceptionDataService.SysExceptionInquiry(queryStr,paging);
                 transaction.ReturnStatus = true;
-                return sysLogInquiry;
+                return sysExceptionInquiry;
             }
             catch (Exception ex)
             {
@@ -86,35 +87,35 @@ namespace JMApplicationService
             }
             finally
             {
-                SysLogDataService.CloseSession();
+                SysExceptionDataService.CloseSession();
             }
 
         }
 
 
         /// <summary>
-        /// Create SysLog
+        /// Create SysException
         /// </summary>
-        /// <param name="sysLog"></param>
+        /// <param name="sysException"></param>
         /// <param name="transaction"></param>
-        public void CreateSysLog(SysLog sysLog, out TransactionalInformation transaction)
+        public void CreateSysException(SysException sysException, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             //CustomerBusinessRules customerBusinessRules = new CustomerBusinessRules();
 
             try
             {
-                SysLogDataService.CreateSession();
+                SysExceptionDataService.CreateSession();
 
                 //customerBusinessRules.ValidateCustomer(customer, CustomerDataService);
 
                 //if (customerBusinessRules.ValidationStatus == true)
                 //{
-                SysLogDataService.BeginTransaction();
-                SysLogDataService.CreateSysLog(sysLog);
-                SysLogDataService.CommitTransaction(true);
-                transaction.ReturnStatus = true;
-                transaction.ReturnMessage.Add("SysLog successfully created at " + sysLog.CreateTime.ToString());
+                SysExceptionDataService.BeginTransaction();
+                SysExceptionDataService.CreateSysException(sysException);
+                SysExceptionDataService.CommitTransaction(true);
+                    transaction.ReturnStatus = true;
+                    transaction.ReturnMessage.Add("SysException successfully created at " + sysException.CreateTime.ToString());
                 //}
                 //else
                 //{
@@ -126,7 +127,7 @@ namespace JMApplicationService
             }
             catch (Exception ex)
             {
-                SysLogDataService.RollbackTransaction(true);
+                SysExceptionDataService.RollbackTransaction(true);
                 transaction.ReturnMessage = new List<string>();
                 string errorMessage = ex.Message;
                 transaction.ReturnStatus = false;
@@ -134,30 +135,30 @@ namespace JMApplicationService
             }
             finally
             {
-                SysLogDataService.CloseSession();
+                SysExceptionDataService.CloseSession();
             }
 
         }
 
-        public void DeleteSysLogById(string Id,out TransactionalInformation transaction)
+        public void DeleteSysExceptionById(string Id,out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             try
             {
 
-                SysLogDataService.CreateSession();
+                SysExceptionDataService.CreateSession();
 
-                SysLogDataService.BeginTransaction();
-                SysLogDataService.DeleteSysLogById(Id);
-                SysLogDataService.CommitTransaction(true);
+                SysExceptionDataService.BeginTransaction();
+                SysExceptionDataService.DeleteSysExceptionById(Id);
+                SysExceptionDataService.CommitTransaction(true);
                 transaction.ReturnStatus = true;
-                transaction.ReturnMessage.Add("Id SysLog deleted at " + DateTime.Now.ToString());
+                transaction.ReturnMessage.Add("Id SysException deleted at " + DateTime.Now.ToString());
 
             }
             catch (Exception ex)
             {
-                SysLogDataService.RollbackTransaction(true);
+                SysExceptionDataService.RollbackTransaction(true);
                 transaction.ReturnMessage = new List<string>();
                 string errorMessage = ex.Message;
                 transaction.ReturnStatus = false;
@@ -165,7 +166,7 @@ namespace JMApplicationService
             }
             finally
             {
-                SysLogDataService.CloseSession();
+                SysExceptionDataService.CloseSession();
             }
 
         }

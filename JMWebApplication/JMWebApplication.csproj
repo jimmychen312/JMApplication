@@ -340,8 +340,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CustApiController.cs" />
-    <Compile Include="Controllers\PaymentTypesController.cs" />
+    <Compile Include="Controllers\Sys\SysExceptionController.cs" />
     <Compile Include="Controllers\Sys\SysLogController.cs" />
     <Compile Include="Controllers\Sys\SysModulesApiController.cs" />
     <Compile Include="Controllers\CustomersApiController.cs" />
@@ -370,6 +369,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Customers\CustomerInquiryViewModel.cs" />
     <Compile Include="ViewModels\Customers\CustomerMaintenanceViewModel.cs" />
+    <Compile Include="ViewModels\Manage\SysExceptionInquiryViewModel.cs" />
+    <Compile Include="ViewModels\Manage\SysExceptionMaintenanceViewModel.cs" />
+    <Compile Include="ViewModels\Manage\SysLogMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleInquiryViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysLogInquiryViewModel.cs" />
@@ -1140,6 +1142,10 @@
     <Content Include="Views\Shared\_Index_LayoutEdit.cshtml" />
     <Content Include="Views\SysSample\Create.cshtml" />
     <Content Include="Views\SysSample\Edit.cshtml" />
+    <Content Include="Views\SysSample\Details.cshtml" />
+    <Content Include="Views\SysLog\Details.cshtml" />
+    <Content Include="Views\SysException\Index.cshtml" />
+    <Content Include="Views\SysException\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1155,6 +1161,14 @@
     <ProjectReference Include="..\JMApplicationService\JMApplicationService.csproj">
       <Project>{9f64466a-f245-4011-9e73-be80dca4b234}</Project>
       <Name>JMApplicationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JMCommon\JMCommon.csproj">
+      <Project>{511d805c-05a6-45a9-b28f-3003978069cc}</Project>
+      <Name>JMCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JMCore\JMCore.csproj">
+      <Project>{1527CFD7-5D85-4EF7-B173-178C6FB0C0F8}</Project>
+      <Name>JMCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\JMDataServiceInterface\JMDataServiceInterface.csproj">
       <Project>{8faf1b34-ae68-41e0-957f-510ee50ca9e7}</Project>

@@ -7,12 +7,12 @@ using JMModels;
 namespace JMApplication.ViewModels.Manage
 {
   
-    public class SysLogInquiryViewModel : TransactionalInformation
+    public class SysExceptionInquiryViewModel : TransactionalInformation
     {
-        public List<SysLogInquiry> SysLogInquiry;       
+        public List<SysExceptionInquiry> SysExceptionInquiry;       
     }
 
-    public class SysModuleInquiryDTO : DataGridPagingInformation
+    public class SysExceptionInquiryDTO : DataGridPagingInformation
     {
         public string queryStr { get; set; }
     }

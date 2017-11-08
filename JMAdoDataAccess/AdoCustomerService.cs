@@ -38,7 +38,7 @@ namespace JMAdoDataAccess
 
             StringBuilder sqlBuilder = new StringBuilder();
 
-            sqlBuilder.Append("INSERT INTO CUSTOMERS (CustomerID, FirstName,LastName, EmailAddress,");
+            sqlBuilder.Append("INSERT INTO Customers (CustomerID, FirstName,LastName, EmailAddress,");
             sqlBuilder.Append(" Address, City, Region, PostalCode, Country, PhoneNumber, CreditCardNumber,");
             sqlBuilder.Append(" PaymentTypeID, CreditCardExpirationDate, CreditCardSecurityCode, CreditLimit,");
             sqlBuilder.Append(" ApprovalStatus, DateCreated, DateUpdated) VALUES (");
@@ -115,7 +115,7 @@ namespace JMAdoDataAccess
 
             StringBuilder sqlBuilder = new StringBuilder();
 
-            sqlBuilder.Append("UPDATE CUSTOMERS SET FirstName=@FirstName, LastName=@LastName, EmailAddress=@EmailAddress,");
+            sqlBuilder.Append("UPDATE Customers SET FirstName=@FirstName, LastName=@LastName, EmailAddress=@EmailAddress,");
             sqlBuilder.Append(" Address=@Address, City=@City, Region=@Region, PostalCode=@PostalCode, Country=@Country, PhoneNumber=@PhoneNumber, CreditCardNumber=@CreditCardNumber,");
             sqlBuilder.Append(" PaymentTypeID=@PaymentTypeID, CreditCardExpirationDate=@CreditCardExpirationDate, CreditCardSecurityCode=@CreditCardSecurityCode, CreditLimit=@CreditLimit,");
             sqlBuilder.Append(" ApprovalStatus=@ApprovalStatus, DateCreated=@DateCreated, DateUpdated=@DateUpdated ");
@@ -181,7 +181,7 @@ namespace JMAdoDataAccess
         {
 
             Customer customer = new Customer();
-            string sql = "SELECT * FROM CUSTOMERS WHERE CustomerID = '" + customerID.ToString() + "'";
+            string sql = "SELECT * FROM Customers WHERE CustomerID = '" + customerID.ToString() + "'";
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = dbConnection;
@@ -360,7 +360,7 @@ namespace JMAdoDataAccess
             SqlCommand sqlCommand;
             string sql = string.Empty;
 
-            sql = "DELETE FROM CUSTOMERS ";
+            sql = "DELETE FROM Customers ";
 
             sqlCommand = new SqlCommand();
             sqlCommand.Connection = dbConnection;

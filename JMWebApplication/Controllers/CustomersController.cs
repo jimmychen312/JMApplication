@@ -1,4 +1,4 @@
-﻿using JM.ViewModels.Customers;
+﻿using JMApplication.ViewModels.Customers;
 using JMWebApplication.Filters;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace JM.Controllers
+namespace JMApplication.Controllers
 {
 
     public class CustomersController : Controller

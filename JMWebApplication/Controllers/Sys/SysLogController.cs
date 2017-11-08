@@ -4,10 +4,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
-using JM.ViewModels.Manage;
+using JMApplication.ViewModels.Manage;
 using JMApplicationService;
 using JMDataServiceInterface;
 using JMModels;
+using JMApplication.Helpers;
 
 namespace JMApplication.Controllers
 {
@@ -31,29 +32,39 @@ namespace JMApplication.Controllers
         /// </summary>
         /// <param name="id">所属</param>
         /// <returns>json</returns>
-        /// 
-
-        public JsonResult GetList()
+        
+        public JsonResult SysLogInquiry(string queryStr, int page, int rows, string SortExpression, string SortDirection)
         {
             TransactionalInformation transaction;
 
+            if (queryStr == null) queryStr = string.Empty;
+            if (SortDirection == null) SortDirection = string.Empty;
+            if (SortExpression == null) SortExpression = string.Empty;
+
             SysLogInquiryViewModel sysLogInquiryViewModel = new SysLogInquiryViewModel();
 
-            
-            SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(sysLogDataService);
+            DataGridPagingInformation paging = new DataGridPagingInformation();
+            paging.CurrentPageNumber = page;
+            paging.PageSize = rows;
+            paging.SortExpression = SortExpression; ;
+            paging.SortDirection = SortDirection;
 
-            List<SysLogList> sysLogs = sysLogApplicationService.GetSysLogList( out transaction);
+            if (paging.SortDirection == "") paging.SortDirection = "ASC";
+            if (paging.SortExpression == "") paging.SortExpression = "Id";
+
+            SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(sysLogDataService);
+            List<SysLogInquiry> sysLogs = sysLogApplicationService.SysLogInquiry(queryStr,paging, out transaction);
 
             //if (id != string.Empty)
             //{
-                sysLogInquiryViewModel.SysLogLists = sysLogs;
+                sysLogInquiryViewModel.SysLogInquiry = sysLogs;
                 sysLogInquiryViewModel.ReturnStatus = transaction.ReturnStatus;
                 sysLogInquiryViewModel.ReturnMessage = transaction.ReturnMessage;
 
                 var json = new
                 {
-                    // total = pager.totalRows,
-                    rows = (from m in sysLogInquiryViewModel.SysLogLists
+                    total = paging.TotalRows,
+                    rows = (from m in sysLogInquiryViewModel.SysLogInquiry
                             select new SysLog()
                             {
                                 Id = m.Id,
@@ -77,13 +88,6 @@ namespace JMApplication.Controllers
         }
 
 
-        ////
-        //// GET: /SysLog/
-        //[Dependency]
-        //public ISysLogBLL logBLL { get; set; }
-
-
-
         public ActionResult Index()
         {
 
@@ -91,51 +95,94 @@ namespace JMApplication.Controllers
 
         }
 
-        //public JsonResult GetList(GridPager pager, string queryStr)
-        //{
-        //    List<SysLog> list = logBLL.GetList(ref pager, queryStr);
-        //    var json = new
-        //    {
-        //        total = pager.totalRows,
-        //        rows = (from r in list
-        //                select new SysLogModel()
-        //                {
+        #region 详细
 
-        //                    Id = r.Id,
-        //                    Operator = r.Operator,
-        //                    Message = r.Message,
-        //                    Result = r.Result,
-        //                    Type = r.Type,
-        //                    Module = r.Module,
-        //                    CreateTime = r.CreateTime
+        public ActionResult Details(string Id, SysLogMaintenanceDTO sysLogDTO)
+        {
+            TransactionalInformation transaction;
 
-        //                }).ToArray()
+            SysLogMaintenanceViewModel sysLogMaintenanceViewModel = new SysLogMaintenanceViewModel();
 
-        //    };
+            SysLog sysLog = new SysLog();
 
-        //    return Json(json);
-        //}
+            ModelStateHelper.UpdateViewModel(sysLogDTO, sysLog);
+
+            SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(sysLogDataService);
+            sysLog = sysLogApplicationService.GetSysLogById(Id, out transaction);
+
+            return View(sysLog);
+        }
+        #endregion
 
 
-        //#region 详细
+        #region 删除
+        public ActionResult Delete()
+        {
+            return View();
+        }
 
-        //public ActionResult Details(string id)
-        //{
+        /// <summary>
+        /// Delete SysLog
+        /// </summary>
+        /// <param name="postedFormData"></param>
+        /// <returns></returns>
 
-        //    SysLog entity = logBLL.GetById(id);
-        //    SysLogModel info = new SysLogModel()
-        //    {
-        //        Id = entity.Id,
-        //        Operator = entity.Operator,
-        //        Message = entity.Message,
-        //        Result = entity.Result,
-        //        Type = entity.Type,
-        //        Module = entity.Module,
-        //        CreateTime = entity.CreateTime,
-        //    };
-        //    return View(info);
-        //}
+        [HttpPost]
+        public JsonResult Delete(FormCollection postedFormData, [System.Web.Http.FromBody] SysLogMaintenanceDTO sysLogDTO)
+        {
+            TransactionalInformation transaction;
 
-        //#endregion
+            SysLogMaintenanceViewModel sysLogMaintenanceViewModel = new SysLogMaintenanceViewModel();
+
+            SysLog sysLog = new SysLog();
+
+            ModelStateHelper.UpdateViewModel(sysLogDTO, sysLog);
+
+            SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(sysLogDataService);
+            sysLogApplicationService.DeleteSysLogById(sysLog.Id, out transaction);
+
+            sysLogMaintenanceViewModel.SysLog = sysLog;
+            sysLogMaintenanceViewModel.ReturnStatus = transaction.ReturnStatus;
+            sysLogMaintenanceViewModel.ReturnMessage = transaction.ReturnMessage;
+            sysLogMaintenanceViewModel.ValidationErrors = transaction.ValidationErrors;
+
+
+            if (transaction.ReturnStatus == false)
+            {
+                //var Json = Request.CreateResponse<CustomerMaintenanceViewModel>(HttpStatusCode.BadRequest, customerMaintenanceViewModel);
+                //return badresponse;
+
+                //return Json(new
+                //{
+                //    ReturnStatus = sysLogMaintenanceViewModel.ReturnStatus,
+                //    ViewModel = sysLogMaintenanceViewModel,
+                //    ValidationErrors = sysLogMaintenanceViewModel.ValidationErrors,
+                //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysLogMaintenanceViewModel),
+                //    //JsonRequestBehavior.AllowGet
+                //});
+
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                //var response = Request.CreateResponse<CustomerMaintenanceViewModel>(HttpStatusCode.Created, customerMaintenanceViewModel);
+                //return response;
+
+                //return Json(new
+                //{
+                //    ReturnStatus = sysLogMaintenanceViewModel.ReturnStatus,
+                //    ViewModel = sysLogMaintenanceViewModel,
+                //    ValidationErrors = sysLogMaintenanceViewModel.ValidationErrors,
+                //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysLogMaintenanceViewModel),
+                //    JsonRequestBehavior.AllowGet
+                //});
+
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        #endregion
+        
     }
 }

@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DE26EA8E-D8F5-4008-A9D9-25190470DA3F}</ProjectGuid>
+    <ProjectGuid>{1527CFD7-5D85-4EF7-B173-178C6FB0C0F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JMEFDataAccess</RootNamespace>
-    <AssemblyName>JMEFDataAccess</AssemblyName>
+    <RootNamespace>JMCore</RootNamespace>
+    <AssemblyName>JMCore</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,16 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,36 +40,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SysLogDataService.cs" />
-    <Compile Include="CustomerDataService.cs" />
-    <Compile Include="DynamicLibrary.cs" />
-    <Compile Include="EFDataService.cs" />
-    <Compile Include="JMDatabase.cs" />
+    <Compile Include="LogHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JMAdoDataAccess\JMAdoDataAccess.csproj">
+      <Project>{c6b74a23-61f4-41d7-9996-83300f74bc92}</Project>
+      <Name>JMAdoDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JMApplicationService\JMApplicationService.csproj">
+      <Project>{9f64466a-f245-4011-9e73-be80dca4b234}</Project>
+      <Name>JMApplicationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JMCommon\JMCommon.csproj">
+      <Project>{511d805c-05a6-45a9-b28f-3003978069cc}</Project>
+      <Name>JMCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JMDataServiceInterface\JMDataServiceInterface.csproj">
       <Project>{8faf1b34-ae68-41e0-957f-510ee50ca9e7}</Project>
       <Name>JMDataServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JMEFDataAccess\JMEFDataAccess.csproj">
+      <Project>{de26ea8e-d8f5-4008-a9d9-25190470da3f}</Project>
+      <Name>JMEFDataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\JMModels\JMModels.csproj">
       <Project>{e392bb42-69f3-48f8-9440-b34bfc0badb0}</Project>
       <Name>JMModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

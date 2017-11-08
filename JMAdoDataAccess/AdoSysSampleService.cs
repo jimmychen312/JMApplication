@@ -26,7 +26,6 @@ namespace JMAdoDataAccess
         /// <param name="sysSample"></param>
         public void CreateSysSample(SysSample sysSample)
         {
-
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = dbConnection;
             sqlCommand.Transaction = dbTransaction;
@@ -93,8 +92,8 @@ namespace JMAdoDataAccess
           
             sqlCommand.Parameters["@Id"].Value = sysSample.Id;
             sqlCommand.Parameters["@Name"].Value = Utilities.GetString(sysSample.Name);
-            sqlCommand.Parameters["@Age"].Value =Utilities.IsNumeric(sysSample.Age);
-            sqlCommand.Parameters["@Bir"].Value = Utilities.IsDate(sysSample.Bir);
+            sqlCommand.Parameters["@Age"].Value =sysSample.Age;
+            sqlCommand.Parameters["@Bir"].Value =sysSample.Bir;
             sqlCommand.Parameters["@Photo"].Value = Utilities.GetString(sysSample.Photo);
             sqlCommand.Parameters["@Note"].Value = Utilities.GetString(sysSample.Note);
             sqlCommand.Parameters["@CreateTime"].Value = sysSample.CreateTime;
@@ -143,7 +142,7 @@ namespace JMAdoDataAccess
         /// Get SysSampleInquiry
         /// </summary>
         /// <returns></returns>
-        public List<SysSampleInquiry> SysSampleInquiry(DataGridPagingInformation paging)
+        public List<SysSampleInquiry> SysSampleInquiry(string queryStr ,DataGridPagingInformation paging)
         {
             List<SysSample> sysSamples = new List<SysSample>();
 
@@ -158,11 +157,23 @@ namespace JMAdoDataAccess
             StringBuilder sqlBuilder = new StringBuilder();
             StringBuilder sqlWhereBuilder = new StringBuilder();
 
-            sqlBuilder.Append(" SELECT COUNT(*) as total_records FROM SysSample c; ");
+            string sqlWhere = string.Empty;
+
+            if (queryStr != null && queryStr.Trim().Length > 0)
+                sqlWhereBuilder.Append(" c.Id LIKE @Id AND ");
+                        
+
+            if (sqlWhereBuilder.Length > 0)
+                sqlWhere = " WHERE " + sqlWhereBuilder.ToString().Substring(0, sqlWhereBuilder.Length - 4);
+
+            sqlBuilder.Append(" SELECT COUNT(*) as total_records FROM SysSample c ");
+            sqlBuilder.Append(sqlWhere);
+            sqlBuilder.Append(";");
             sqlBuilder.Append(" SELECT* FROM(");
             sqlBuilder.Append(" SELECT (ROW_NUMBER() OVER (ORDER BY " + paging.SortExpression + " " + paging.SortDirection + ")) as record_number,");
             sqlBuilder.Append(" c.*");
             sqlBuilder.Append(" FROM SysSample c");
+            sqlBuilder.Append(sqlWhere);
             sqlBuilder.Append(" ) Rows");
             sqlBuilder.Append(" where record_number between " + minRowNumber + " and " + maxRowNumber);
 
@@ -173,6 +184,12 @@ namespace JMAdoDataAccess
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = dbConnection;
             sqlCommand.CommandText = sql;
+
+            if (queryStr != null && queryStr.Trim().Length > 0)
+            {
+                sqlCommand.Parameters.Add("@Id", System.Data.SqlDbType.NVarChar);
+                sqlCommand.Parameters["@Id"].Value = queryStr + "%";
+            }
             
             SqlDataReader reader = sqlCommand.ExecuteReader();
             reader.Read();
@@ -203,95 +220,7 @@ namespace JMAdoDataAccess
             }
             reader.Close();
             return sysSampleList;
-
-
-
-            //List<Customer> sysSamples = new List<Customer>();
-
-            //string sortExpression = paging.SortExpression;
-
-            //int maxRowNumber;
-            //int minRowNumber;
-
-            //minRowNumber = (paging.PageSize * (paging.CurrentPageNumber - 1)) + 1;
-            //maxRowNumber = paging.PageSize * paging.CurrentPageNumber;
-
-            //StringBuilder sqlBuilder = new StringBuilder();
-            //StringBuilder sqlWhereBuilder = new StringBuilder();
-
-            //string sqlWhere = string.Empty;
-
-            //if (firstName != null && firstName.Trim().Length > 0)
-            //    sqlWhereBuilder.Append(" c.FirstName LIKE @FirstName AND ");
-
-            //if (lastName != null && lastName.Trim().Length > 0)
-            //    sqlWhereBuilder.Append(" c.LastName LIKE @LastName AND ");
-
-            //if (sqlWhereBuilder.Length > 0)
-            //    sqlWhere = " WHERE " + sqlWhereBuilder.ToString().Substring(0, sqlWhereBuilder.Length - 4);
-
-            //sqlBuilder.Append(" SELECT COUNT(*) as total_records FROM Customers c ");
-            //sqlBuilder.Append(sqlWhere);
-            //sqlBuilder.Append(";");
-            //sqlBuilder.Append(" SELECT * FROM ( ");
-            //sqlBuilder.Append(" SELECT (ROW_NUMBER() OVER (ORDER BY " + paging.SortExpression + " " + paging.SortDirection + ")) as record_number, ");
-            //sqlBuilder.Append(" c.*, p.Description as PaymentTypeDescription ");
-            //sqlBuilder.Append(" FROM Customers c ");
-            //sqlBuilder.Append(" INNER JOIN PaymentTypes p ON p.PaymentTypeID = c.PaymentTypeID ");
-            //sqlBuilder.Append(sqlWhere);
-            //sqlBuilder.Append(" ) Rows ");
-            //sqlBuilder.Append(" where record_number between " + minRowNumber + " and " + maxRowNumber);
-
-            //string sql = sqlBuilder.ToString();
-
-            //SqlCommand sqlCommand = new SqlCommand();
-            //sqlCommand.CommandText = sql;
-            //sqlCommand.Connection = dbConnection;
-
-            //if (firstName != null && firstName.Trim().Length > 0)
-            //{
-            //    sqlCommand.Parameters.Add("@FirstName", System.Data.SqlDbType.VarChar);
-            //    sqlCommand.Parameters["@FirstName"].Value = firstName + "%";
-            //}
-
-            //if (lastName != null && lastName.Trim().Length > 0)
-            //{
-            //    sqlCommand.Parameters.Add("@LastName", System.Data.SqlDbType.VarChar);
-            //    sqlCommand.Parameters["@LastName"].Value = lastName + "%";
-            //}
-
-            //SqlDataReader reader = sqlCommand.ExecuteReader();
-            //reader.Read();
-            //paging.TotalRows = Convert.ToInt32(reader["Total_Records"]);
-            //paging.TotalPages = Utilities.CalculateTotalPages(paging.TotalRows, paging.PageSize);
-
-            //reader.NextResult();
-
-            //List<CustomerInquiry> sysSampleList = new List<CustomerInquiry>();
-
-            //while (reader.Read())
-            //{
-            //    CustomerInquiry sysSample = new CustomerInquiry();
-
-            //    DataReader dataReader = new DataReader(reader);
-
-            //    sysSample.CustomerID = dataReader.GetGuid("CustomerID");
-            //    sysSample.FirstName = dataReader.GetString("FirstName");
-            //    sysSample.LastName = dataReader.GetString("LastName");
-            //    sysSample.EmailAddress = dataReader.GetString("EmailAddress");
-            //    sysSample.City = dataReader.GetString("City");
-            //    sysSample.Country = dataReader.GetString("Country");
-            //    sysSample.PaymentTypeDescription = dataReader.GetString("PaymentTypeDescription");
-
-            //    sysSampleList.Add(sysSample);
-
-            //}
-
-            //reader.Close();
-
-            //return sysSampleList;
-
-
+            
         }
 
         /// <summary>
@@ -311,51 +240,7 @@ namespace JMAdoDataAccess
             sqlCommand.ExecuteNonQuery();
 
         }
-
-
-        ///// <summary>
-        ///// Get SysSampleInquiry By sysSample Id
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<SysSampleInquiry> SysSampleInquiry(string ParentId)
-        //{
-        //    List<SysSampleInquiry> sysSampleList = new List<SysSampleInquiry>();
-
-        //    string sql = "SELECT * FROM SysSample Where ParentId ='" + ParentId + "' AND Id <> '0' ORDER BY Id";
-
-        //    SqlCommand sqlCommand = new SqlCommand();
-        //    sqlCommand.Connection = dbConnection;
-        //    sqlCommand.CommandText = sql;
-
-        //    SqlDataReader reader = sqlCommand.ExecuteReader();
-        //    while (reader.Read())
-        //    {
-        //        DataReader dataReader = new DataReader(reader);
-
-        //        SysSampleInquiry sysSample = new SysSampleInquiry();
-
-        //        sysSample.Id = dataReader.GetString("Id");
-        //        sysSample.Name = dataReader.GetString("Name");
-        //        sysSample.EnglishName = dataReader.GetString("EnglishName");
-        //        sysSample.ParentId = dataReader.GetString("ParentId");
-        //        sysSample.Url = dataReader.GetString("Url");
-        //        sysSample.Iconic = dataReader.GetString("Iconic");
-        //        sysSample.Sort = dataReader.GetInt32("Sort");
-        //        sysSample.Remark = dataReader.GetString("Remark");
-        //        sysSample.State = dataReader.GetBoolean("State");
-        //        sysSample.CreatePerson = dataReader.GetString("CreatePerson");
-        //        sysSample.CreateTime = dataReader.GetDateTime("CreateTime");
-        //        sysSample.IsLast = dataReader.GetBoolean("IsLast");
-        //        sysSampleList.Add(sysSample);
-
-        //    }
-
-        //    reader.Close();
-        //    return sysSampleList;
-
-        //}
-
-
+        
     }
 
 }

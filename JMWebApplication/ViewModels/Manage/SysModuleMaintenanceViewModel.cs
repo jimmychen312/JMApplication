@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using JMModels;
 
-namespace JM.ViewModels.Manage
+namespace JMApplication.ViewModels.Manage
 {
     public class SysModuleMaintenanceViewModel : TransactionalInformation
     {

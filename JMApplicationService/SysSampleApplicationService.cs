@@ -67,13 +67,13 @@ namespace JMApplicationService
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public List<SysSampleInquiry> GetSysSampleInquiry(DataGridPagingInformation paging, out TransactionalInformation transaction)
+        public List<SysSampleInquiry> GetSysSampleInquiry(string queryStr,DataGridPagingInformation paging, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             try
             {
                 SysSampleDataService.CreateSession();
-                List<SysSampleInquiry> sysSampleList = SysSampleDataService.SysSampleInquiry(paging);
+                List<SysSampleInquiry> sysSampleList = SysSampleDataService.SysSampleInquiry(queryStr,paging);
                 transaction.ReturnStatus = true;
                 return sysSampleList;
             }
@@ -114,8 +114,8 @@ namespace JMApplicationService
                 SysSampleDataService.BeginTransaction();
                 SysSampleDataService.CreateSysSample(sysSample);
                 SysSampleDataService.CommitTransaction(true);
-                    transaction.ReturnStatus = true;
-                    transaction.ReturnMessage.Add("SysSample successfully created at " + sysSample.CreateTime.ToString());
+                transaction.ReturnStatus = true;
+                transaction.ReturnMessage.Add("SysSample successfully created at " + sysSample.CreateTime.ToString());
                 //}
                 //else
                 //{
@@ -158,13 +158,12 @@ namespace JMApplicationService
 
                 //if (sysSampleBusinessRules.ValidationStatus == true)
                 //{
-                    //SysSample originalSysSampleInformation = SysSampleDataService.GetSysSampleById(sysSample.Id);
-                    //PopulateSysSampleInformation(sysSample, originalSysSampleInformation);
+                    SysSample originalSysSampleInformation = SysSampleDataService.GetSysSampleById(sysSample.Id);
+                    PopulateSysSampleInformation(sysSample, originalSysSampleInformation);
 
                     SysSampleDataService.BeginTransaction();
-                //SysSampleDataService.UpdateSysSample(originalSysSampleInformation);
-                SysSampleDataService.UpdateSysSample(sysSample);
-                SysSampleDataService.CommitTransaction(true);
+                    SysSampleDataService.UpdateSysSample(originalSysSampleInformation);
+                    SysSampleDataService.CommitTransaction(true);
                     transaction.ReturnStatus = true;
                     transaction.ReturnMessage.Add("SysSample successfully updated at " + DateTime.Now.ToString());
                 //}

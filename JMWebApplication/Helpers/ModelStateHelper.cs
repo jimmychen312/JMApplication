@@ -6,7 +6,7 @@ using System.Web.Http.ModelBinding;
 using System.Collections;
 using System.Reflection;
 
-namespace JM.Helpers
+namespace JMApplication.Helpers
 {
    
     public static class ModelStateHelper

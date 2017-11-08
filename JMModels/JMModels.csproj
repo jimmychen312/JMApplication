@@ -54,6 +54,7 @@
     <Compile Include="DataGridPagingInformation.cs" />
     <Compile Include="PaymentType.cs" />
     <Compile Include="Sys\Account.cs" />
+    <Compile Include="Sys\SysException.cs" />
     <Compile Include="Sys\SysLog.cs" />
     <Compile Include="Sys\SysModule.cs" />
     <Compile Include="Sys\SysSample.cs" />

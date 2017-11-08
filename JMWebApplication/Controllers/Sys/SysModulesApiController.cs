@@ -5,16 +5,16 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using JM.ViewModels;
-using JM.Helpers;
+using JMApplication.Helpers;
 using JMApplicationService;
 using JMModels;
 using JMEFDataAccess;
 using JMDataServiceInterface;
-using JM.Filters;
+using JMApplication.Filters;
 using System.Web.Security;
 //using JMApplication.Models;
-using JM.ViewModels.Manage;
-using JM.ViewModels.Customers;
+using JMApplication.ViewModels.Manage;
+using JMApplication.ViewModels.Customers;
 
 
 namespace JMWebApplication.Controllers

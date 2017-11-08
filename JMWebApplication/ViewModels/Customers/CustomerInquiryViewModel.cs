@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using JMModels;
 
-namespace JM.ViewModels.Customers
+namespace JMApplication.ViewModels.Customers
 {
   
     public class CustomerInquiryViewModel : TransactionalInformation

@@ -10,7 +10,7 @@ using System.Web.Http.Controllers;
 using System.Net;
 using JMModels;
 
-namespace JM.Filters
+namespace JMApplication.Filters
 {
     public class WebApiAuthenicationAttribute : System.Web.Http.Filters.ActionFilterAttribute
     {

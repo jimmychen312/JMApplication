@@ -4,17 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using JMModels;
-using JM.ViewModels.Manage;
+using JMApplication.ViewModels.Manage;
 using JMApplicationService;
 using JMDataServiceInterface;
-using JM.Helpers;
+using JMApplication.Helpers;
 using System.Net;
 using System.Net.Http;
 using JM.ViewModels;
-using JM.ViewModels.Customers;
+using JMApplication.ViewModels.Customers;
 using JMEFDataAccess;
-using JM.Filters;
+using JMApplication.Filters;
 using System.Web.Security;
+using JMCore;
+
 
 namespace JMApplication.Controllers
 {
@@ -40,12 +42,13 @@ namespace JMApplication.Controllers
 
         
         [System.Web.Mvc.HttpPost]
-        public JsonResult GetList(int page, int rows, string SortExpression, string SortDirection)
+        public JsonResult GetList(string queryStr, int page, int rows, string SortExpression, string SortDirection)
         {
             //int total = 0;
 
             TransactionalInformation transaction;
-                        
+
+            if (queryStr == null) queryStr = string.Empty;
             if (SortDirection == null) SortDirection = string.Empty;
             if (SortExpression == null) SortExpression = string.Empty;
 
@@ -61,7 +64,7 @@ namespace JMApplication.Controllers
             if (paging.SortExpression == "") paging.SortExpression = "Id";
 
             SysSampleApplicationService sysSampleApplicationService = new SysSampleApplicationService(sysSampleDataService);
-            List<SysSampleInquiry> sysSamples = sysSampleApplicationService.GetSysSampleInquiry(paging, out transaction);
+            List<SysSampleInquiry> sysSamples = sysSampleApplicationService.GetSysSampleInquiry(queryStr, paging, out transaction);
 
             //if (id != string.Empty)
             //{
@@ -100,6 +103,7 @@ namespace JMApplication.Controllers
         {
             return View();
         }
+                 
 
         /// <summary>
         /// Create SysSample
@@ -140,8 +144,10 @@ namespace JMApplication.Controllers
                 //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
                 //    //JsonRequestBehavior.AllowGet
                 //});
+                              
+                //LogHandler.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "失败", "创建", "样例程序");
 
-                 return Json(0, JsonRequestBehavior.AllowGet);
+                return Json(0, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -156,6 +162,8 @@ namespace JMApplication.Controllers
                 //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
                 //    JsonRequestBehavior.AllowGet
                 //});
+
+                //LogHandler.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "成功", "创建", "样例程序");
 
                 return Json(1, JsonRequestBehavior.AllowGet);
             }
@@ -245,5 +253,94 @@ namespace JMApplication.Controllers
         }
         #endregion
 
+
+        #region 详细
+
+        public ActionResult Details(string Id, SysSampleMaintenanceDTO sysSampleDTO)
+        {
+            TransactionalInformation transaction;
+
+            SysSampleMaintenanceViewModel sysSampleMaintenanceViewModel = new SysSampleMaintenanceViewModel();
+
+            SysSample sysSample = new SysSample();
+
+            ModelStateHelper.UpdateViewModel(sysSampleDTO, sysSample);
+
+            SysSampleApplicationService sysSampleApplicationService = new SysSampleApplicationService(sysSampleDataService);
+            sysSample = sysSampleApplicationService.GetSysSampleById(Id, out transaction);
+
+            return View(sysSample);
+        }
+        #endregion
+
+
+        #region 删除
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Delete SysSample
+        /// </summary>
+        /// <param name="postedFormData"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public JsonResult Delete(FormCollection postedFormData, [System.Web.Http.FromBody] SysSampleMaintenanceDTO sysSampleDTO)
+        {
+            TransactionalInformation transaction;
+
+            SysSampleMaintenanceViewModel sysSampleMaintenanceViewModel = new SysSampleMaintenanceViewModel();
+
+            SysSample sysSample = new SysSample();
+
+            ModelStateHelper.UpdateViewModel(sysSampleDTO, sysSample);
+
+            SysSampleApplicationService sysSampleApplicationService = new SysSampleApplicationService(sysSampleDataService);
+            sysSampleApplicationService.DeleteSysSampleById(sysSample.Id, out transaction);
+
+            sysSampleMaintenanceViewModel.SysSample = sysSample;
+            sysSampleMaintenanceViewModel.ReturnStatus = transaction.ReturnStatus;
+            sysSampleMaintenanceViewModel.ReturnMessage = transaction.ReturnMessage;
+            sysSampleMaintenanceViewModel.ValidationErrors = transaction.ValidationErrors;
+
+
+            if (transaction.ReturnStatus == false)
+            {
+                //var Json = Request.CreateResponse<CustomerMaintenanceViewModel>(HttpStatusCode.BadRequest, customerMaintenanceViewModel);
+                //return badresponse;
+
+                //return Json(new
+                //{
+                //    ReturnStatus = sysSampleMaintenanceViewModel.ReturnStatus,
+                //    ViewModel = sysSampleMaintenanceViewModel,
+                //    ValidationErrors = sysSampleMaintenanceViewModel.ValidationErrors,
+                //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
+                //    //JsonRequestBehavior.AllowGet
+                //});
+
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                //var response = Request.CreateResponse<CustomerMaintenanceViewModel>(HttpStatusCode.Created, customerMaintenanceViewModel);
+                //return response;
+
+                //return Json(new
+                //{
+                //    ReturnStatus = sysSampleMaintenanceViewModel.ReturnStatus,
+                //    ViewModel = sysSampleMaintenanceViewModel,
+                //    ValidationErrors = sysSampleMaintenanceViewModel.ValidationErrors,
+                //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
+                //    JsonRequestBehavior.AllowGet
+                //});
+
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        #endregion
     }
 }

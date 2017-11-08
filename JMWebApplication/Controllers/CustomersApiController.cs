@@ -4,14 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using JM.ViewModels;
-using JM.ViewModels.Customers;
-using JM.Helpers;
+using JMApplication.ViewModels;
+using JMApplication.ViewModels.Customers;
+using JMApplication.Helpers;
 using JMApplicationService;
 using JMModels;
 using JMEFDataAccess;
 using JMDataServiceInterface;
-using JM.Filters;
+using JMApplication.Filters;
 using System.Web.Security;
 //using JMApplication.Models;
 

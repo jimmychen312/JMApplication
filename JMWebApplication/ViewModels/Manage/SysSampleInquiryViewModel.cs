@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using JMModels;
 
-namespace JM.ViewModels.Manage
+namespace JMApplication.ViewModels.Manage
 {
   
     public class SysSampleInquiryViewModel : TransactionalInformation
@@ -12,11 +12,11 @@ namespace JM.ViewModels.Manage
         public List<SysSampleInquiry> SysSampleLists;       
     }
 
-    //public class SysModuleInquiryDTO : DataGridPagingInformation
-    //{       
-    //    public string FirstName { get; set; }
-    //    public string LastName { get; set; }      
-    //}
+    public class SysSampleInquiryDTO : DataGridPagingInformation
+    {
+        public string queryStr { get; set; }
+        //public string LastName { get; set; }
+    }
 
 
 

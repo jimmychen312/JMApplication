@@ -31,7 +31,7 @@ namespace JMModels
         public DateTime? CreateTime { get; set; }
     }
 
-    public class SysLogList
+    public class SysLogInquiry
     {
         public string Id { get; set; }
         public string Operator { get; set; }

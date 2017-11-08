@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using JMModels;
 
-namespace JM.ViewModels.Manage
+namespace JMApplication.ViewModels.Manage
 {
     public class SysSampleMaintenanceViewModel : TransactionalInformation
     {
@@ -29,8 +29,7 @@ namespace JM.ViewModels.Manage
         public string Photo { get; set; }
         public string Note { get; set; }
         public DateTime? CreateTime { get; set; }
-
-
+        
     }
 
 }

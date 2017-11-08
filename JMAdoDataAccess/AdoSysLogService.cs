@@ -19,28 +19,73 @@ namespace JMAdoDataAccess
 
         }
 
+
+
         /// <summary>
-        /// 获取集合
+        /// SysLog Inquiry
         /// </summary>
-        /// <returns>集合</returns>
-        //public IQueryable<SysLog> GetList()
-        public List<SysLogList> GetSysLogList()
-            
+        /// <returns></returns>
+        public List<SysLogInquiry> SysLogInquiry(string queryStr, DataGridPagingInformation paging)
         {
-            List<SysLogList> sysLogList = new List<SysLogList>();
+            List<SysLog> sysLogs = new List<SysLog>();
 
-            string sql = "SELECT * FROM SysLog ORDER BY Id";
+            string sortExpression = paging.SortExpression;
 
+            int maxRowNumber;
+            int minRowNumber;
+
+            minRowNumber = (paging.PageSize * (paging.CurrentPageNumber - 1)) + 1;
+            maxRowNumber = paging.PageSize * paging.CurrentPageNumber;
+
+            StringBuilder sqlBuilder = new StringBuilder();
+            StringBuilder sqlWhereBuilder = new StringBuilder();
+
+            string sqlWhere = string.Empty;
+
+            if (queryStr != null && queryStr.Trim().Length > 0)
+                sqlWhereBuilder.Append(" c.Id LIKE @Id AND ");
+
+
+            if (sqlWhereBuilder.Length > 0)
+                sqlWhere = " WHERE " + sqlWhereBuilder.ToString().Substring(0, sqlWhereBuilder.Length - 4);
+
+            sqlBuilder.Append(" SELECT COUNT(*) as total_records FROM SysLog c ");
+            sqlBuilder.Append(sqlWhere);
+            sqlBuilder.Append(";");
+            sqlBuilder.Append(" SELECT* FROM(");
+            sqlBuilder.Append(" SELECT (ROW_NUMBER() OVER (ORDER BY " + paging.SortExpression + " " + paging.SortDirection + ")) as record_number,");
+            sqlBuilder.Append(" c.*");
+            sqlBuilder.Append(" FROM SysLog c");
+            sqlBuilder.Append(sqlWhere);
+            sqlBuilder.Append(" ) Rows");
+            sqlBuilder.Append(" where record_number between " + minRowNumber + " and " + maxRowNumber);
+
+            string sql = sqlBuilder.ToString();
+                        
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = dbConnection;
             sqlCommand.CommandText = sql;
 
+            if (queryStr != null && queryStr.Trim().Length > 0)
+            {
+                sqlCommand.Parameters.Add("@Id", System.Data.SqlDbType.NVarChar);
+                sqlCommand.Parameters["@Id"].Value = queryStr + "%";
+            }
+
             SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+            paging.TotalRows = Convert.ToInt32(reader["Total_Records"]);
+            paging.TotalPages = Utilities.CalculateTotalPages(paging.TotalRows, paging.PageSize);
+
+            reader.NextResult();
+
+            List<SysLogInquiry> sysLogList = new List<SysLogInquiry>();
+                        
             while (reader.Read())
             {
                 DataReader dataReader = new DataReader(reader);
 
-                SysLogList sysLog = new SysLogList();
+                SysLogInquiry sysLog = new SysLogInquiry();
 
                 sysLog.Id = dataReader.GetString("Id");
                 sysLog.Operator = dataReader.GetString("Operator");
@@ -49,15 +94,54 @@ namespace JMAdoDataAccess
                 sysLog.Type = dataReader.GetString("Type");
                 sysLog.Module = dataReader.GetString("Module");
                 sysLog.CreateTime = dataReader.GetDateTime("CreateTime");
+
                 sysLogList.Add(sysLog);
 
             }
             reader.Close();
             return sysLogList;
 
-            //IQueryable<SysLog> list = db.SysLog.AsQueryable();
-            //return list;
         }
+
+        ///// <summary>
+        ///// 获取集合
+        ///// </summary>
+        ///// <returns>集合</returns>
+        ////public IQueryable<SysLog> GetList()
+        //public List<SysLogList> GetSysLogList()
+
+        //{
+        //    List<SysLogList> sysLogList = new List<SysLogList>();
+
+        //    string sql = "SELECT * FROM SysLog ORDER BY Id";
+
+        //    SqlCommand sqlCommand = new SqlCommand();
+        //    sqlCommand.Connection = dbConnection;
+        //    sqlCommand.CommandText = sql;
+
+        //    SqlDataReader reader = sqlCommand.ExecuteReader();
+        //    while (reader.Read())
+        //    {
+        //        DataReader dataReader = new DataReader(reader);
+
+        //        SysLogList sysLog = new SysLogList();
+
+        //        sysLog.Id = dataReader.GetString("Id");
+        //        sysLog.Operator = dataReader.GetString("Operator");
+        //        sysLog.Message = dataReader.GetString("Message");
+        //        sysLog.Result = dataReader.GetString("Result");
+        //        sysLog.Type = dataReader.GetString("Type");
+        //        sysLog.Module = dataReader.GetString("Module");
+        //        sysLog.CreateTime = dataReader.GetDateTime("CreateTime");
+        //        sysLogList.Add(sysLog);
+
+        //    }
+        //    reader.Close();
+        //    return sysLogList;
+
+        //    //IQueryable<SysLog> list = db.SysLog.AsQueryable();
+        //    //return list;
+        //}
 
         ///// <summary>
         ///// 创建一个对象
@@ -74,6 +158,8 @@ namespace JMAdoDataAccess
 
         //}
 
+         
+
 
         /// <summary>
         /// Create SysLog
@@ -81,7 +167,6 @@ namespace JMAdoDataAccess
         /// <param name="sysLog"></param>
         public void CreateSysLog(SysLog sysLog)
         {
-
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = dbConnection;
             sqlCommand.Transaction = dbTransaction;
