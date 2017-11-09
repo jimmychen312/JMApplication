@@ -20,14 +20,18 @@
                 data: $("#CreateForm").serialize(),
                 dataType: "json",
                 success: function (data) {
-                    if (data == 1) {
-                        
-                        window.parent.frameReturnByMes("成功");
+                    if (data.type == 1) {
+                        window.parent.frameReturnByMes(data.message);
                         window.parent.frameReturnByReload(true);
                         window.parent.frameReturnByClose()
+
+                        //window.parent.frameReturnByMes("成功");
+                        //window.parent.frameReturnByReload(true);
+                        //window.parent.frameReturnByClose()
                     }
                     else {
-                        window.parent.frameReturnByMes("失败");
+                        //window.parent.frameReturnByMes("失败");
+                        window.parent.frameReturnByMes(data.message);
                     }
                 }
             });

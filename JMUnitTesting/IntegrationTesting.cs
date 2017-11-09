@@ -12,7 +12,7 @@ using JMMockedDataAccess;
 using JMModels;
 using JMSeedData;
 using JMAdoDataAccess;
-using JM.ViewModels.Customers;
+using JMApplication.ViewModels.Customers;
 
 namespace JMUnitTesting
 {

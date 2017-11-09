@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JMModels;
+using JMCommon;
 
 namespace JMApplicationService
 {
@@ -73,7 +74,7 @@ namespace JMApplicationService
             try
             {
                 SysSampleDataService.CreateSession();
-                List<SysSampleInquiry> sysSampleList = SysSampleDataService.SysSampleInquiry(queryStr,paging);
+                List<SysSampleInquiry> sysSampleList = SysSampleDataService.SysSampleInquiry(queryStr,paging);                
                 transaction.ReturnStatus = true;
                 return sysSampleList;
             }
@@ -104,7 +105,7 @@ namespace JMApplicationService
             //SysSampleBusinessRules sysSampleBusinessRules = new SysSampleBusinessRules();
 
             try
-            {
+            {                
                 SysSampleDataService.CreateSession();
 
                 //sysSampleBusinessRules.ValidateSysSample(sysSample, SysSampleDataService);
@@ -132,6 +133,9 @@ namespace JMApplicationService
                 string errorMessage = ex.Message;
                 transaction.ReturnStatus = false;
                 transaction.ReturnMessage.Add(errorMessage);
+
+                //ExceptionHander exceptionHander = new ExceptionHander(sysLogDataService);
+                //ExceptionHander.WriteException(ex);
             }
             finally
             {

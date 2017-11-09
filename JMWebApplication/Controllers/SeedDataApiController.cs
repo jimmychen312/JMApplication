@@ -11,7 +11,7 @@ using JMApplicationService;
 using JMModels;
 using JMEFDataAccess;
 using JMDataServiceInterface;
-using JM.ViewModels.SeedData;
+using JMApplication.ViewModels.SeedData;
 using JMSeedData;
 
 

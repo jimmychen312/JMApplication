@@ -9,10 +9,11 @@ using JMApplicationService;
 using JMDataServiceInterface;
 using JMModels;
 using JMApplication.Helpers;
+using JMWebApplication.Controllers;
 
 namespace JMApplication.Controllers
 {
-    public class SysLogController : Controller
+    public class SysLogController : BaseController
     {
         ISysLogDataService sysLogDataService;
 

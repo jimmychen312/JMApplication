@@ -18,8 +18,19 @@ namespace JMWebApplication.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-              
-        
+                
+        // GET: /Account/Index
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            Account account = new Account();
+            account.Id = "admin";
+            account.TrueName = "admin";
+            Session["Account"] = account;
+
+            return View();
+        }
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -28,7 +39,8 @@ namespace JMWebApplication.Controllers
         public AccountController()
         {
         }
-
+                    
+        
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;

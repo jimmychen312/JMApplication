@@ -340,6 +340,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Sys\SysExceptionController.cs" />
     <Compile Include="Controllers\Sys\SysLogController.cs" />
     <Compile Include="Controllers\Sys\SysModulesApiController.cs" />
@@ -350,7 +351,11 @@
     <Compile Include="Controllers\SeedDataApiController.cs" />
     <Compile Include="Controllers\SeedDataController.cs" />
     <Compile Include="Controllers\Sys\SysSampleController.cs" />
+    <Compile Include="Controllers\Sys\SysUser.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Core\verify_code.ashx.cs">
+      <DependentUpon>verify_code.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Filters\AuthenicationFilter.cs" />
     <Compile Include="Filters\WebApiAuthenicationFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -381,23 +386,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Content\accordion_arrows.png" />
-    <Content Include="Content\account.jpg" />
-    <Content Include="Content\arrow.gif" />
     <Content Include="Content\Article\icon_arrow_blue.gif" />
     <Content Include="Content\Article\sprite.gif" />
-    <Content Include="Content\blank.gif" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\btn_bg.gif" />
-    <Content Include="Content\calendar_arrows.png" />
-    <Content Include="Content\combo_arrow.png" />
-    <Content Include="Content\datagrid_icons.png" />
-    <Content Include="Content\datebox_arrow.png" />
     <Content Include="Content\default\headBg.jpg" />
     <Content Include="Content\default\head_bg.gif" />
     <Content Include="Content\default\Logo.png" />
@@ -408,7 +404,6 @@
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\gray\headBg.jpg" />
     <Content Include="Content\gray\Logo.png" />
-    <Content Include="Content\icons.png" />
     <Content Include="Content\icon\cancel.png" />
     <Content Include="Content\icon\check.gif" />
     <Content Include="Content\icon\clear.png" />
@@ -476,27 +471,8 @@
     <Content Include="Content\images\tree_icons.png" />
     <Content Include="Content\images\upfile_bg.gif" />
     <Content Include="Content\images\validatebox_warning.png" />
-    <Content Include="Content\layout_arrows.png" />
-    <Content Include="Content\linkbutton_bg.png" />
-    <Content Include="Content\loading.gif" />
-    <Content Include="Content\loading2.gif" />
-    <Content Include="Content\Logo.png" />
-    <Content Include="Content\menu_arrows.png" />
-    <Content Include="Content\messager_icons.png" />
-    <Content Include="Content\nopic-t.gif" />
-    <Content Include="Content\nopic.gif" />
-    <Content Include="Content\NotPic.jpg" />
-    <Content Include="Content\pagination_icons.png" />
-    <Content Include="Content\panel_tools.png" />
-    <Content Include="Content\passwordbox_close.png" />
-    <Content Include="Content\passwordbox_open.png" />
-    <Content Include="Content\searchbox_button.png" />
-    <Content Include="Content\slider_handle.png" />
-    <Content Include="Content\spinner_arrows.png" />
     <Content Include="Content\sunny\headBg.jpg" />
     <Content Include="Content\sunny\Logo.png" />
-    <Content Include="Content\tabs_icons.png" />
-    <Content Include="Content\tagbox_icons.png" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -927,8 +903,6 @@
     <Content Include="Content\themes\mobile.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
-    <Content Include="Content\tools.png" />
-    <Content Include="Content\tools_bg.gif" />
     <Content Include="Content\tree\css\images\icons\add.png" />
     <Content Include="Content\tree\css\images\icons\addStep.gif" />
     <Content Include="Content\tree\css\images\icons\addStep_dsbl.gif" />
@@ -996,9 +970,6 @@
     <Content Include="Content\tree\css\images\tree\leaf.gif" />
     <Content Include="Content\tree\css\images\tree\loading.gif" />
     <Content Include="Content\tree\css\tree.css" />
-    <Content Include="Content\tree_icons.png" />
-    <Content Include="Content\upfile_bg.gif" />
-    <Content Include="Content\validatebox_warning.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1049,6 +1020,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Core\verify_code.ashx" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\home.js" />
     <Content Include="Scripts\JMWebApplication.js" />
@@ -1146,9 +1118,11 @@
     <Content Include="Views\SysLog\Details.cshtml" />
     <Content Include="Views\SysException\Index.cshtml" />
     <Content Include="Views\SysException\Details.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

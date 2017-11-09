@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using JM.ViewModels;
+using JMApplication.ViewModels;
 using JMApplication.Helpers;
 using JMApplicationService;
 using JMModels;

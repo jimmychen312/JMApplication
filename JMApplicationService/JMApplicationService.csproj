@@ -53,6 +53,10 @@
     <Compile Include="Validations.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JMCommon\JMCommon.csproj">
+      <Project>{511D805C-05A6-45A9-B28F-3003978069CC}</Project>
+      <Name>JMCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JMDataServiceInterface\JMDataServiceInterface.csproj">
       <Project>{8faf1b34-ae68-41e0-957f-510ee50ca9e7}</Project>
       <Name>JMDataServiceInterface</Name>

@@ -10,29 +10,31 @@ using JMDataServiceInterface;
 using JMApplication.Helpers;
 using System.Net;
 using System.Net.Http;
-using JM.ViewModels;
+using JMApplication.ViewModels;
 using JMApplication.ViewModels.Customers;
 using JMEFDataAccess;
 using JMApplication.Filters;
 using System.Web.Security;
 using JMCore;
-
+using JMCommon;
+using JMWebApplication.Controllers;
 
 namespace JMApplication.Controllers
 {
-    public class SysSampleController : Controller
+    public class SysSampleController : BaseController
     {        
         ISysSampleDataService sysSampleDataService;
-
+        ISysLogDataService sysLogDataService;
         /// <summary>
         /// Constructor with Dependency Injection using Ninject
         /// </summary>
         /// <param name="dataService"></param>
-        public SysSampleController(ISysSampleDataService dataService)
+        public SysSampleController(ISysSampleDataService dataService,ISysLogDataService dataService2)
         {
             sysSampleDataService = dataService;
+            sysLogDataService = dataService2;
         }
-
+                
 
         // GET: SysSample
         public ActionResult Index()
@@ -129,7 +131,9 @@ namespace JMApplication.Controllers
             sysSampleMaintenanceViewModel.ReturnStatus = transaction.ReturnStatus;
             sysSampleMaintenanceViewModel.ReturnMessage = transaction.ReturnMessage;
             sysSampleMaintenanceViewModel.ValidationErrors = transaction.ValidationErrors;
-            
+
+
+            LogHandler logHander = new LogHandler(sysLogDataService);
 
             if (transaction.ReturnStatus == false)
             {
@@ -144,10 +148,10 @@ namespace JMApplication.Controllers
                 //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
                 //    //JsonRequestBehavior.AllowGet
                 //});
-                              
-                //LogHandler.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "失败", "创建", "样例程序");
-
-                return Json(0, JsonRequestBehavior.AllowGet);
+                               
+                logHander.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "失败", "创建", "样例程序");
+                return Json(JsonHandler.CreateMessage(0, "插入失败" + sysSampleMaintenanceViewModel.ReturnMessage), JsonRequestBehavior.AllowGet);
+                //return Json(0, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -162,10 +166,10 @@ namespace JMApplication.Controllers
                 //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
                 //    JsonRequestBehavior.AllowGet
                 //});
-
-                //LogHandler.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "成功", "创建", "样例程序");
-
-                return Json(1, JsonRequestBehavior.AllowGet);
+               
+                logHander.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "成功", "创建", "样例程序");
+                return Json(JsonHandler.CreateMessage(1, "插入成功"), JsonRequestBehavior.AllowGet);
+                //return Json(1, JsonRequestBehavior.AllowGet);
             }
             
         }

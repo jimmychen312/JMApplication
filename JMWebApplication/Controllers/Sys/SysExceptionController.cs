@@ -9,10 +9,11 @@ using JMApplicationService;
 using JMDataServiceInterface;
 using JMModels;
 using JMApplication.Helpers;
+using JMWebApplication.Controllers;
 
 namespace JMApplication.Controllers
 {
-    public class SysExceptionController : Controller
+    public class SysExceptionController : BaseController
     {
         ISysExceptionDataService sysExceptionDataService;
 
@@ -80,7 +81,8 @@ namespace JMApplication.Controllers
                             ).ToArray()
                 };
 
-                 return Json(json);
+           
+                return Json(json);
             //}
             //else
             //{

@@ -27,6 +27,12 @@ namespace JMDataServiceInterface
         void DeleteAllCustomers();
 
     }
+    
+    public interface IAccountRepository
+    {
+        SysUser Login(string username, string pwd);
+    }
+
 
     //SysSample
     public interface ISysSampleDataService : IDataService, IDisposable

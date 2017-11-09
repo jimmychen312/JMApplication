@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using JMModels;
 
-namespace JM.ViewModels.SeedData
+namespace JMApplication.ViewModels.SeedData
 {
     public class SeedDataViewModel : TransactionalInformation 
     {
