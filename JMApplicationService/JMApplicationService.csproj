@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SysExceptionApplicationService.cs" />
+    <Compile Include="AccountApplicationService.cs" />
+    <Compile Include="SysUserApplicationService.cs" />
     <Compile Include="SysSampleApplicationService.cs" />
     <Compile Include="SysLogApplicationService.cs" />
     <Compile Include="SysModuleApplicationService.cs" />
@@ -53,6 +55,10 @@
     <Compile Include="Validations.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JMAdoDataAccess\JMAdoDataAccess.csproj">
+      <Project>{c6b74a23-61f4-41d7-9996-83300f74bc92}</Project>
+      <Name>JMAdoDataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JMCommon\JMCommon.csproj">
       <Project>{511D805C-05A6-45A9-B28F-3003978069CC}</Project>
       <Name>JMCommon</Name>

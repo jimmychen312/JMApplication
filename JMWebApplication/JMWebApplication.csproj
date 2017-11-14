@@ -343,7 +343,6 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\Sys\SysExceptionController.cs" />
     <Compile Include="Controllers\Sys\SysLogController.cs" />
-    <Compile Include="Controllers\Sys\SysModulesApiController.cs" />
     <Compile Include="Controllers\CustomersApiController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -351,7 +350,6 @@
     <Compile Include="Controllers\SeedDataApiController.cs" />
     <Compile Include="Controllers\SeedDataController.cs" />
     <Compile Include="Controllers\Sys\SysSampleController.cs" />
-    <Compile Include="Controllers\Sys\SysUser.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Core\verify_code.ashx.cs">
       <DependentUpon>verify_code.ashx</DependentUpon>
@@ -376,6 +374,7 @@
     <Compile Include="ViewModels\Customers\CustomerMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysExceptionInquiryViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysExceptionMaintenanceViewModel.cs" />
+    <Compile Include="ViewModels\Manage\AccountViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysLogMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleInquiryViewModel.cs" />
@@ -1119,6 +1118,7 @@
     <Content Include="Views\SysException\Index.cshtml" />
     <Content Include="Views\SysException\Details.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\SysSample\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

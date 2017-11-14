@@ -37,7 +37,7 @@ namespace JMModels
             [Display(Name = "详细地址")]
             public string Address { get; set; }
             [Display(Name = "状态")]
-            public int State { get; set; }
+            public Boolean State { get; set; }
             [Display(Name = "创建时间")]
             public string CreateTime { get; set; }
             [Display(Name = "创建人")]

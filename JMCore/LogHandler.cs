@@ -1,40 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using JMCommon;
-//using App.DAL;
-//using App.IBLL;
-using JMAdoDataAccess;
-using JMModels;
-//using Microsoft.Practices.Unity;
-using JMDataServiceInterface;
+﻿using JMAdoDataAccess;
 using JMApplicationService;
-using System.Data;
-using System.Data.SqlClient;
-using System.Collections;
+using JMCommon;
+using JMModels;
 
 namespace JMCore
 
 {
     public class LogHandler
     {
-        
-        //[Dependency]
-        //public static ISysLogBLL logBLL { get; set; }
+        //private ISysLogDataService _sysLogDataService;
 
-        private ISysLogDataService _sysLogDataService;
+        //public ISysLogDataService SysLogDataService
+        //{
+        //    get { return _sysLogDataService; }
+        //}
 
-        public ISysLogDataService SysLogDataService
-         {
-             get {return _sysLogDataService;}            
-         }
-
-        public LogHandler(ISysLogDataService dataService)
-        {
-            _sysLogDataService=dataService;
-        }
-
+        //public LogHandler(ISysLogDataService dataService)
+        //{
+        //    _sysLogDataService = dataService;
+        //}
+              
 
         /// <summary>
         /// 写入日志
@@ -44,7 +29,7 @@ namespace JMCore
         /// <param name="result">结果</param>
         /// <param name="type">类型</param>
         /// <param name="module">操作模块</param>
-        public void WriteServiceLog(string oper, string mes, string result, string type, string module)
+        public static void WriteServiceLog(string oper, string mes, string result, string type, string module)
         {
             TransactionalInformation transaction;
 
@@ -58,33 +43,13 @@ namespace JMCore
             sysLog.Type = type;
             sysLog.Module = module;
             sysLog.CreateTime = ResultHelper.NowTime;
-            //ModelStateHelper.UpdateViewModel(sysLogDTO, sysLog);
+            
+            //SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(SysLogDataService);
+            //sysLogApplicationService.CreateSysLog(sysLog, out transaction);
 
-            //SysLogDataService.BeginTransaction();
-            //SysLogDataService.CreateSysLog(sysLog);
-            //SysLogDataService.CommitTransaction(true);
-
-            SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(SysLogDataService);
+            SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(new AdoSysLogService());
             sysLogApplicationService.CreateSysLog(sysLog, out transaction);
-
-            //sysLogMaintenanceViewModel.SysLog = sysLog;
-            //sysLogMaintenanceViewModel.ReturnStatus = transaction.ReturnStatus;
-            //sysLogMaintenanceViewModel.ReturnMessage = transaction.ReturnMessage;
-            //sysLogMaintenanceViewModel.ValidationErrors = transaction.ValidationErrors;
-
-
-            //SysLog entity = new SysLog();
-            //entity.Id = ResultHelper.NewId;
-            //entity.Operator = oper;
-            //entity.Message = mes;
-            //entity.Result = result;
-            //entity.Type = type;
-            //entity.Module = module;
-            //entity.CreateTime = ResultHelper.NowTime;
-            //using (SysLogApplicationService logRepository = new SysLogRepository())
-            //{
-            //    logRepository.Create(entity);
-            //}
+                       
 
         }
     }

@@ -1,11 +1,8 @@
 ﻿using JMDataServiceInterface;
+using JMModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JMModels;
-using JMCommon;
+
 
 namespace JMApplicationService
 {
@@ -133,8 +130,7 @@ namespace JMApplicationService
                 string errorMessage = ex.Message;
                 transaction.ReturnStatus = false;
                 transaction.ReturnMessage.Add(errorMessage);
-
-                //ExceptionHander exceptionHander = new ExceptionHander(sysLogDataService);
+                
                 //ExceptionHander.WriteException(ex);
             }
             finally

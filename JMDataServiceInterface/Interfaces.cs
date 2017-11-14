@@ -28,11 +28,18 @@ namespace JMDataServiceInterface
 
     }
     
-    public interface IAccountRepository
+    public interface IAccountDataService : IDataService, IDisposable
     {
         SysUser Login(string username, string pwd);
     }
 
+    /// <summary>
+    /// 取角色模块的操作权限，用于权限控制
+    /// </summary>
+    public interface ISysRightDataService : IDataService, IDisposable
+    {
+        List<Permission> GetPermission(string accountid, string controller);
+    }
 
     //SysSample
     public interface ISysSampleDataService : IDataService, IDisposable
@@ -48,9 +55,9 @@ namespace JMDataServiceInterface
     //管理树菜单接口
     public interface ISysModuleDataService : IDataService, IDisposable
     {       
-        SysModule GetSysModuleBySysModuleID(string sysModuleID);
-        List<SysModuleInquiry> SysModuleInquiry();
-        List<SysModuleInquiry> SysModuleInquiry(string sysModuleId);        
+        //SysModule GetSysModuleBySysModuleID(string personId,string sysModuleID);
+        //List<SysModuleInquiry> SysModuleInquiry(string personId);
+        List<SysModuleInquiry> GetMenuByPersonId(string personId,string sysModuleId);        
     }
 
 

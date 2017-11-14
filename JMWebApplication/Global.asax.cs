@@ -6,11 +6,19 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.SessionState;
 
 namespace JMApplication
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        //WebApi 修改用Session需重写Init
+        public override void Init()
+        {
+            this.PostAuthenticateRequest += (sender, e) => HttpContext.Current.SetSessionStateBehavior(SessionStateBehavior.Required);
+            base.Init();
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

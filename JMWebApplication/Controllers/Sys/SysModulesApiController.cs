@@ -12,14 +12,13 @@ using JMEFDataAccess;
 using JMDataServiceInterface;
 using JMApplication.Filters;
 using System.Web.Security;
-//using JMApplication.Models;
 using JMApplication.ViewModels.Manage;
 using JMApplication.ViewModels.Customers;
+using System.Web;
 
 
 namespace JMWebApplication.Controllers
 {
-
     [RoutePrefix("api/sysModules")]
     public class SysModuleApiController : ApiController
     {
@@ -33,8 +32,7 @@ namespace JMWebApplication.Controllers
         {
             sysModuleDataService = dataService;
         }
-
-
+        
 
         /// <summary>
         /// Get SysModules Maintenance Information
@@ -44,7 +42,7 @@ namespace JMWebApplication.Controllers
         //[WebApiAuthenication]
         //[HttpGet("GetCustomerMaintenanceInformation")]
         [HttpGet, Route("GetSysModuleById")]
-        public HttpResponseMessage GetSysModuleMaintenanceInformation(HttpRequestMessage request, string sysModuleID)
+        public HttpResponseMessage GetSysModuleMaintenanceInformation(string personId,HttpRequestMessage request, string sysModuleID)
         {
 
             TransactionalInformation sysModuleTransaction;
@@ -55,7 +53,7 @@ namespace JMWebApplication.Controllers
 
             if (sysModuleID != string.Empty)
             {
-                SysModule sysModule = sysModuleApplicationService.GetSysModuleBySysModuleID(sysModuleID, out sysModuleTransaction);
+                SysModule sysModule = sysModuleApplicationService.GetSysModuleBySysModuleID(personId,sysModuleID, out sysModuleTransaction);
                 sysModuleMaintenanceViewModel.SysModule = sysModule;
                 sysModuleMaintenanceViewModel.ReturnStatus = sysModuleTransaction.ReturnStatus;
                 sysModuleMaintenanceViewModel.ReturnMessage = sysModuleTransaction.ReturnMessage;
@@ -83,34 +81,37 @@ namespace JMWebApplication.Controllers
         [HttpGet,Route("GetSysModule")]
         public HttpResponseMessage SysModuleInquiry()
         {
-            TransactionalInformation transaction;
-
-            SysModuleInquiryViewModel sysModuleInquiryViewModel = new SysModuleInquiryViewModel();
-
-            SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
-            List<SysModuleInquiry> sysModules = sysModuleApplicationService.SysModuleInquiry(out transaction);
-
-            //List<PaymentType> paymentTypes = customerApplicationService.GetPaymentTypes(out paymentTransaction);
-            //customerMaintenanceViewModel.PaymentTypes = paymentTypes;
-
-
-            sysModuleInquiryViewModel.SysModules = sysModules;
-            sysModuleInquiryViewModel.ReturnStatus = transaction.ReturnStatus;
-            sysModuleInquiryViewModel.ReturnMessage = transaction.ReturnMessage;
-         
-            if (transaction.ReturnStatus == true)
+            if (HttpContext.Current.Session["Account"] != null)
             {
-                var response = Request.CreateResponse<SysModuleInquiryViewModel>(HttpStatusCode.OK, sysModuleInquiryViewModel);
-                return response;
+                Account account = (Account)HttpContext.Current.Session["Account"];
+
+
+                TransactionalInformation transaction;
+
+                SysModuleInquiryViewModel sysModuleInquiryViewModel = new SysModuleInquiryViewModel();
+
+                SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
+                List<SysModuleInquiry> sysModules = sysModuleApplicationService.SysModuleInquiry(account.Id, out transaction);
+                                                
+                sysModuleInquiryViewModel.SysModules = sysModules;
+                sysModuleInquiryViewModel.ReturnStatus = transaction.ReturnStatus;
+                sysModuleInquiryViewModel.ReturnMessage = transaction.ReturnMessage;
+
+                if (transaction.ReturnStatus == true)
+                {
+                    var response = Request.CreateResponse<SysModuleInquiryViewModel>(HttpStatusCode.OK, sysModuleInquiryViewModel);
+                    return response;
+                }                         
+
+                var badResponse = Request.CreateResponse<SysModuleInquiryViewModel>(HttpStatusCode.BadRequest, sysModuleInquiryViewModel);
+                return badResponse;
+
+            }
+            else
+            {
+                return Request.CreateResponse("0");
             }
 
-            var badResponse = Request.CreateResponse<SysModuleInquiryViewModel>(HttpStatusCode.BadRequest, sysModuleInquiryViewModel);
-            return badResponse;
-
-
         }
-
-         
-
     }
 }

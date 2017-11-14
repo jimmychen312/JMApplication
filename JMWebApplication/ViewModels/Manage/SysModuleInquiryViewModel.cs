@@ -12,10 +12,10 @@ namespace JMApplication.ViewModels.Manage
         public List<SysModuleInquiry> SysModules;       
     }
 
-    //public class SysModuleInquiryDTO : DataGridPagingInformation
+    //public class SysModuleDTO
     //{       
-    //    public string FirstName { get; set; }
-    //    public string LastName { get; set; }      
+    //    public string PersonId { get; set; }
+    //   // public string LastName { get; set; }
     //}
 
 }

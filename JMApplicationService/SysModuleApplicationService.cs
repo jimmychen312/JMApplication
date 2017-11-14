@@ -11,7 +11,6 @@ namespace JMApplicationService
 
     public class SysModuleApplicationService
     {
-
         ISysModuleDataService _sysModuleDataService;
 
         private ISysModuleDataService SysModuleDataService
@@ -27,83 +26,20 @@ namespace JMApplicationService
             _sysModuleDataService = dataService;
         }
 
-
-        /// <summary>
-        /// Get SysModule By SysModule ID
-        /// </summary>
-        /// <param name="sysModuleID"></param>
-        /// <param name="transaction"></param>
-        /// <returns></returns>
-        public SysModule GetSysModuleBySysModuleID(string sysModuleID, out TransactionalInformation transaction)
-        {
-            transaction = new TransactionalInformation();
-
-            try
-            {
-                SysModuleDataService.CreateSession();
-                SysModule sysModule = SysModuleDataService.GetSysModuleBySysModuleID(sysModuleID);
-                transaction.ReturnStatus = true;
-                return sysModule;
-            }
-            catch (Exception ex)
-            {
-                transaction.ReturnMessage = new List<string>();
-                string errorMessage = ex.Message;
-                transaction.ReturnStatus = false;
-                transaction.ReturnMessage.Add(errorMessage);
-                return null;
-            }
-            finally
-            {
-                SysModuleDataService.CloseSession();
-            }
-
-        }
-
-
-        /// <summary>
-        /// SysModule Inquiry
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <returns></returns>
-        public List<SysModuleInquiry> SysModuleInquiry(out TransactionalInformation transaction)
-        {
-            transaction = new TransactionalInformation();
-            try
-            {
-                SysModuleDataService.CreateSession();
-                List<SysModuleInquiry> sysModules = SysModuleDataService.SysModuleInquiry();
-                transaction.ReturnStatus = true;
-                return sysModules;
-            }
-            catch (Exception ex)
-            {
-                transaction.ReturnMessage = new List<string>();
-                string errorMessage = ex.Message;
-                transaction.ReturnStatus = false;
-                transaction.ReturnMessage.Add(errorMessage);
-                return null;
-            }
-            finally
-            {
-                SysModuleDataService.CloseSession();
-            }
-
-        }
-
-
         /// <summary>
         /// SysModule Inquiry By Id
         /// </summary>
         /// <param name="transaction"></param>
+        /// <param name="personId"></param>
+        /// <param name="ParentId"></param>
         /// <returns></returns>
-        public List<SysModuleInquiry> SysModuleInquiry(string ParentId, out TransactionalInformation transaction)
+        public List<SysModuleInquiry> GetMenuByPersonId(string personId, string ParentId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             try
             {
                 SysModuleDataService.CreateSession();
-                List<SysModuleInquiry> sysModules = SysModuleDataService.SysModuleInquiry(ParentId);
+                List<SysModuleInquiry> sysModules = SysModuleDataService.GetMenuByPersonId(personId, ParentId);
                 transaction.ReturnStatus = true;
                 return sysModules;
             }
@@ -123,19 +59,22 @@ namespace JMApplicationService
         }
 
         ///// <summary>
-        ///// Get Payment Types
+        ///// Get SysModule By SysModule ID
         ///// </summary>
         ///// <param name="transaction"></param>
-        ///// <returns></returns>
-        //public List<PaymentType> GetPaymentTypes(out TransactionalInformation transaction)
+        ///// <param name="personId"></param>
+        ///// <param name="sysModuleID"></param>
+        ///// <returns></returns>        
+        //public SysModule GetSysModuleBySysModuleID(string personId,string sysModuleID, out TransactionalInformation transaction)
         //{
         //    transaction = new TransactionalInformation();
+
         //    try
         //    {
         //        SysModuleDataService.CreateSession();
-        //        List<PaymentType> paymentTypes = SysModuleDataService.GetPaymentTypes();
+        //        SysModule sysModule = SysModuleDataService.GetSysModuleBySysModuleID(personId,sysModuleID);
         //        transaction.ReturnStatus = true;
-        //        return paymentTypes;
+        //        return sysModule;
         //    }
         //    catch (Exception ex)
         //    {
@@ -154,32 +93,39 @@ namespace JMApplicationService
 
 
         ///// <summary>
-        ///// Populate SysModule Information
+        ///// SysModule Inquiry
         ///// </summary>
-        ///// <param name="sysModule"></param>
-        ///// <param name="originalSysModuleInformation"></param>
-        //private void PopulateSysModuleInformation(SysModule sysModule, SysModule originalSysModuleInformation)
+        ///// <param name="transaction"></param>
+        ///// <param name="personId"></param>
+        ///// <returns></returns>
+        //public List<SysModuleInquiry> SysModuleInquiry(string personId,out TransactionalInformation transaction)
         //{
-        //    originalSysModuleInformation.FirstName = sysModule.FirstName;
-        //    originalSysModuleInformation.LastName = sysModule.LastName;
-        //    originalSysModuleInformation.CreditCardNumber = sysModule.CreditCardNumber;
-        //    originalSysModuleInformation.CreditCardSecurityCode = sysModule.CreditCardSecurityCode;
-        //    originalSysModuleInformation.CreditLimit = sysModule.CreditLimit;
-        //    originalSysModuleInformation.Address = sysModule.Address;
-        //    originalSysModuleInformation.City = sysModule.City;
-        //    originalSysModuleInformation.Country = sysModule.Country;
-        //    originalSysModuleInformation.PhoneNumber = sysModule.PhoneNumber;
-        //    //            originalSysModuleInformation.TelePhone = sysModule.TelePhone;
-        //    originalSysModuleInformation.PostalCode = sysModule.PostalCode;
-        //    originalSysModuleInformation.Region = sysModule.Region;
-        //    originalSysModuleInformation.EmailAddress = sysModule.EmailAddress;
-        //    originalSysModuleInformation.PaymentTypeID = sysModule.PaymentTypeID;
+        //    transaction = new TransactionalInformation();
+        //    try
+        //    {
+        //        SysModuleDataService.CreateSession();
+        //        List<SysModuleInquiry> sysModules = SysModuleDataService.SysModuleInquiry(personId);
+        //        transaction.ReturnStatus = true;
+        //        return sysModules;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        transaction.ReturnMessage = new List<string>();
+        //        string errorMessage = ex.Message;
+        //        transaction.ReturnStatus = false;
+        //        transaction.ReturnMessage.Add(errorMessage);
+        //        return null;
+        //    }
+        //    finally
+        //    {
+        //        SysModuleDataService.CloseSession();
+        //    }
 
         //}
 
+
+
     }
-
-
 }
 
 

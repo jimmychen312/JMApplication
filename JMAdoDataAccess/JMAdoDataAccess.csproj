@@ -42,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdoAccountService.cs" />
     <Compile Include="AdoSysExceptionService.cs" />
     <Compile Include="AdoSysLogService.cs" />
+    <Compile Include="AdoSysRightService .cs" />
     <Compile Include="AdoSysSampleService.cs" />
     <Compile Include="AdoSysModuleService.cs" />
     <Compile Include="AdoCustomerService.cs" />

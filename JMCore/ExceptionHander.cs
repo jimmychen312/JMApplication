@@ -1,46 +1,42 @@
-﻿using System;
-using System.Web.Configuration;
+﻿using JMAdoDataAccess;
+using JMApplicationService;
+using JMCommon;
 using JMModels;
+using System;
 using System.IO;
 using System.Text;
-using JMCommon;
-using JMDataServiceInterface;
-using JMApplicationService;
 
 namespace JMCore
 {
-
     /// <summary>
     /// 写入一个异常错误
     /// </summary>
     /// <param name="ex">异常</param>
     public  class ExceptionHander
     {
-        private ISysExceptionDataService _sysExceptionDataService;
+        //private ISysExceptionDataService _sysExceptionDataService;
 
-        public ISysExceptionDataService SysExceptionDataService
-        {
-            get { return _sysExceptionDataService; }
-        }
+        //public ISysExceptionDataService SysExceptionDataService
+        //{
+        //    get { return _sysExceptionDataService; }
+        //}
 
-        public ExceptionHander(ISysExceptionDataService dataService)
-        {
-            _sysExceptionDataService = dataService;
-        }
-
+        //public ExceptionHander(ISysExceptionDataService dataService)
+        //{
+        //    _sysExceptionDataService = dataService;
+        //}
+         
         /// <summary>
         /// 加入异常日志
         /// </summary>
         /// <param name="ex">异常</param>
-        public void WriteException(Exception ex)
+        public static void WriteException(Exception ex)
         {
 
             try
             {
                 TransactionalInformation transaction;
-
-                //SysExceptionMaintenanceViewModel sysExceptionMaintenanceViewModel = new SysExceptionMaintenanceViewModel();
-
+                                
                 SysException model = new SysException()
                 {
                     Id = ResultHelper.NewId,
@@ -53,33 +49,10 @@ namespace JMCore
                     CreateTime = ResultHelper.NowTime
 
                 };
-                //ModelStateHelper.UpdateViewModel(sysExceptionDTO, sysException);
-
-                //SysExceptionDataService.BeginTransaction();
-                //SysExceptionDataService.CreateSysException(sysException);
-                //SysExceptionDataService.CommitTransaction(true);
-
-                SysExceptionApplicationService sysExceptionApplicationService = new SysExceptionApplicationService(SysExceptionDataService);
+                 
+                SysExceptionApplicationService sysExceptionApplicationService = new SysExceptionApplicationService(new AdoSysExceptionService());
                 sysExceptionApplicationService.CreateSysException(model, out transaction);
-
-
-                //using (DBContainer db = new DBContainer())
-                //{
-                //    SysException model = new SysException()
-                //    {
-                //        Id = ResultHelper.NewId,
-                //        HelpLink = ex.HelpLink,
-                //        Message = ex.Message,
-                //        Source = ex.Source,
-                //        StackTrace = ex.StackTrace,
-                //        TargetSite = ex.TargetSite.ToString(),
-                //        Data = ex.Data.ToString(),
-                //        CreateTime = ResultHelper.NowTime
-
-                //    };
-                //    db.SysException.AddObject(model);
-                //    db.SaveChanges();
-                //}
+                                 
             }
             catch (Exception ep)
             {
@@ -98,9 +71,7 @@ namespace JMCore
                 }
                 catch { return; }
             }
-
-
-
+            
         }
     }
 

@@ -34,7 +34,12 @@ namespace JMApplication.Controllers
             sysSampleDataService = dataService;
             sysLogDataService = dataService2;
         }
-                
+
+        [SupportFilter]
+        public ActionResult Test()
+        {
+            return View();
+        }
 
         // GET: SysSample
         public ActionResult Index()
@@ -101,6 +106,7 @@ namespace JMApplication.Controllers
 
 
         #region 创建
+        
         public ActionResult Create()
         {
             return View();
@@ -133,8 +139,8 @@ namespace JMApplication.Controllers
             sysSampleMaintenanceViewModel.ValidationErrors = transaction.ValidationErrors;
 
 
-            LogHandler logHander = new LogHandler(sysLogDataService);
-
+            //LogHandler logHander = new LogHandler(sysLogDataService);
+            
             if (transaction.ReturnStatus == false)
             {
                 //var Json = Request.CreateResponse<CustomerMaintenanceViewModel>(HttpStatusCode.BadRequest, customerMaintenanceViewModel);
@@ -148,8 +154,9 @@ namespace JMApplication.Controllers
                 //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
                 //    //JsonRequestBehavior.AllowGet
                 //});
-                               
-                logHander.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "失败", "创建", "样例程序");
+
+
+                LogHandler.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "失败", "创建", "样例程序");
                 return Json(JsonHandler.CreateMessage(0, "插入失败" + sysSampleMaintenanceViewModel.ReturnMessage), JsonRequestBehavior.AllowGet);
                 //return Json(0, JsonRequestBehavior.AllowGet);
             }
@@ -166,8 +173,8 @@ namespace JMApplication.Controllers
                 //    //MessageBoxView = Helpers.MvcHelpers.RenderPartialView(this, "_MessageBox", sysSampleMaintenanceViewModel),
                 //    JsonRequestBehavior.AllowGet
                 //});
-               
-                logHander.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "成功", "创建", "样例程序");
+
+                LogHandler.WriteServiceLog("虚拟用户", "Id:" + sysSample.Id + ",Name:" + sysSample.Name, "成功", "创建", "样例程序");
                 return Json(JsonHandler.CreateMessage(1, "插入成功"), JsonRequestBehavior.AllowGet);
                 //return Json(1, JsonRequestBehavior.AllowGet);
             }

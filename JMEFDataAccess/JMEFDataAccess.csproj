@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountService.cs" />
     <Compile Include="SysLogDataService.cs" />
     <Compile Include="CustomerDataService.cs" />
     <Compile Include="DynamicLibrary.cs" />
