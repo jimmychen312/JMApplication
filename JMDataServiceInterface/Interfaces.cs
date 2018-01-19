@@ -38,9 +38,9 @@ namespace JMDataServiceInterface
     /// </summary>
     public interface ISysRightDataService : IDataService, IDisposable
     {
-        List<Permission> GetPermission(string accountid, string controller);
+        List<Permission> GetPermissions(string accountId,string controller);    
     }
-
+    
     //SysSample
     public interface ISysSampleDataService : IDataService, IDisposable
     {
@@ -51,13 +51,59 @@ namespace JMDataServiceInterface
         void DeleteSysSampleById(string Id);
     }
 
-
     //管理树菜单接口
+    public interface IManageDataService : IDataService, IDisposable
+    {        
+        List<SysModuleInquiry> GetMenuByPersonId(string personId, string sysModuleId);
+        //List<SysModuleInquiry> GetSysModuleList();
+        //int CreateSysModule(SysModule sysModule);
+        //void DeleteSysModuleById(string Id);  
+        //void UpdateModule(SysModule sysModule);
+        //SysModule GetById(string Id);
+        //bool IsExist(string Id);
+    }
+
+
+    /// <summary>
+    /// test
+    /// </summary>
+    public interface IPaymentTypeDataService : IDataService, IDisposable
+    {
+        List<PaymentType> GetPaymentTypes();
+    }
+
+    //权限管理接口EF
     public interface ISysModuleDataService : IDataService, IDisposable
-    {       
-        //SysModule GetSysModuleBySysModuleID(string personId,string sysModuleID);
-        //List<SysModuleInquiry> SysModuleInquiry(string personId);
-        List<SysModuleInquiry> GetMenuByPersonId(string personId,string sysModuleId);        
+    {
+        //IQueryable<SysModule> GetSysModuleList();
+        List<SysModule> GetSysModuleList( string parentId);
+
+        //List<SysModule> GetSysModuleBySystem(string parentId);
+         void CreateSysModule(SysModule sysModule);
+        //void DeleteSysModuleById(string Id);
+        //int UpdateSysModule(SysModule sysModule);
+        SysModule GetSysModuleById(string Id);
+        //bool IsExist(string Id);
+        void InsertSysRight();
+        //void ClearUnusedRightOperate();
+    }
+
+    //权限管理接口EF
+    public interface ISysModuletestDataService : IDataService, IDisposable
+    {
+        
+        List<SysModule> GetSysModuleList();
+        
+    }
+
+    public interface ISysModuleOperateDataService : IDataService, IDisposable
+    {
+        //IQueryable<SysModuleOperate> GetModuleOperateList();
+        List<SysModuleOperate> GetModuleOperateList();
+        int CreateSysModuleOperate(SysModuleOperate sysModuleOperate);
+        int DeleteSysModuleOperate(string id);
+        SysModuleOperate GetSysModuleOperateById(string id);
+        bool IsExist(string id);
     }
 
 
@@ -79,5 +125,7 @@ namespace JMDataServiceInterface
         List<SysExceptionInquiry> SysExceptionInquiry(string queryStr, DataGridPagingInformation paging);
         void DeleteSysExceptionById(string Id);
     }
+
+
 
 }

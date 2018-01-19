@@ -27,6 +27,13 @@ namespace JMApplication.Controllers
         }
 
 
+        public ActionResult Error()
+        {
+
+            BaseException ex = new BaseException();
+            return View(ex);
+        }
+
 
         /// <summary>
         /// GetList

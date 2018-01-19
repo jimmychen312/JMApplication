@@ -31,7 +31,6 @@ namespace JMCore
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
-
         }
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace JMCore
         {
             //读取请求上下文中的Controller,Action,Id
             var routes = new RouteCollection();
-            RouteConfig.RegisterRoutes(routes);
+            //RouteConfig.RegisterRoutes(routes);
             
             RouteData routeData = routes.GetRouteData(filterContext.HttpContext);
 
@@ -122,11 +121,11 @@ namespace JMCore
                 {
                     TransactionalInformation transaction;
                                         
-                    SysUserApplicationService sysUserApplicationService = new SysUserApplicationService(new AdoSysRightService());
+                    SysRightApplicationService sysRightApplicationService = new SysRightApplicationService(new AdoSysRightService());
 
-                    perm = sysUserApplicationService.GetPermission(account.Id, controller, out transaction);//获取当前用户的权限列表
-                    HttpContext.Current.Session[filePath] = perm;//获取的劝降放入会话由Controller调用
-                    
+                    perm = sysRightApplicationService.GetPermissions(account.Id, controller, out transaction);//获取当前用户的权限列表
+                    HttpContext.Current.Session[filePath] = perm;//获取的权限列表放入会话由Controller调用
+
 
                     //using (SysUserBLL userBLL = new SysUserBLL()
                     //{
@@ -151,6 +150,7 @@ namespace JMCore
                 if (count > 0)
                 {
                     bResult = true;
+                    HttpContext.Current.Response.Write("你没有操作权限xxx，请联系管理员！");
                 }
                 else
                 {

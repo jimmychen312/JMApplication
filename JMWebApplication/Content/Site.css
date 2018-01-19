@@ -34,14 +34,14 @@ html, body {
 }
 
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-    background-color: #fff;
+    background-color: #fff;*/
 
-    /*font: 14px/1.33 "微软雅黑",Verdana,"宋体",Helvetica,sans-serif;
-    background-color: #fff*/
+    font: 14px/1.33 "微软雅黑",Verdana,"宋体",Helvetica,sans-serif;
+    background-color: #fff
 }
 
 /*通用
@@ -85,7 +85,7 @@ input[type="text"], input[type="password"], textarea {
 
 input[type="text"], input[type="password"] {
     padding: 2px;
-    height: 16px;
+    height:16px;
 }
 
 .clearfix:after {
@@ -246,6 +246,9 @@ header, footer, nav, section {
 .mvctool {
     height: 30px;
 }
+    .mvctool.bgb {
+        background-color: rgb(179, 223, 218);        
+    }
 
 .searchText {
     float: left;

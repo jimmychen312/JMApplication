@@ -118,16 +118,22 @@ namespace JMWebApplication.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMEFDataAccess.EFCustomerService>();
+            kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMEFDataAccess.EFCustomerService>();
+            kernel.Bind<JMDataServiceInterface.IPaymentTypeDataService>().To<JMEFDataAccess.EFPaymentTypeService>();
+            kernel.Bind<JMDataServiceInterface.ISysModuletestDataService>().To<JMEFDataAccess.EFSysModuletestDateService>();
+            //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMMockedDataAccess.MockedCustomerService>();
             //kernel.Bind<JMDataServiceInterface.IAccountDataService>().To<JMEFDataAccess.EFAccountService>();
-            kernel.Bind<JMDataServiceInterface.ISysRightDataService>().To<JMAdoDataAccess.AdoSysRightService>();
+            //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMAdoDataAccess.AdoCustomerService>();
+
             kernel.Bind<JMDataServiceInterface.IAccountDataService>().To<JMAdoDataAccess.AdoAccountService>();
             kernel.Bind<JMDataServiceInterface.ISysExceptionDataService>().To<JMAdoDataAccess.AdoSysExceptionService>();
             kernel.Bind<JMDataServiceInterface.ISysLogDataService>().To<JMAdoDataAccess.AdoSysLogService>();
             kernel.Bind<JMDataServiceInterface.ISysSampleDataService>().To<JMAdoDataAccess.AdoSysSampleService>();
-            kernel.Bind<JMDataServiceInterface.ISysModuleDataService>().To<JMAdoDataAccess.AdoSysModuleService>();
-            kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMAdoDataAccess.AdoCustomerService>();
-            //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMMockedDataAccess.MockedCustomerService>();
+            kernel.Bind<JMDataServiceInterface.ISysModuleDataService>().To<JMEFDataAccess.EFSysModuleService>();
+            kernel.Bind<JMDataServiceInterface.ISysModuleOperateDataService>().To<JMEFDataAccess.EFSysModuleOperateDataService>();
+            kernel.Bind<JMDataServiceInterface.IManageDataService>().To<JMAdoDataAccess.AdoManageService>();            
+            kernel.Bind<JMDataServiceInterface.ISysRightDataService>().To<JMAdoDataAccess.AdoSysRightService>();           
+
         }        
     }
 }

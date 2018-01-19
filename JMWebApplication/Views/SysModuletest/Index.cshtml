@@ -1,0 +1,71 @@
+﻿@model List<JMModels.SysModule>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index_Layout.cshtml";
+}
+
+
+<table id="Listp"></table>
+<table id="List"></table>
+
+
+@*!--自动DataGrid 从第一次加载与重置窗体大小时候发生的事件:分部视图-->*@
+<script type="text/javascript">
+    $(function () {
+        $(window).resize(function () {
+            $('#List').datagrid('resize', {
+                width: $(window).width() - 10,
+                height: $(window).height() - 35
+            }).datagrid('resize', {
+                width: $(window).width() - 10,
+                height: $(window).height() - 35
+            });
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $('#Listp').datagrid({
+            url: '/SysModuletest/GetListP',
+            width: $(window).width() - 10,
+            height: $(window).height() - 35,
+            methord: 'post',
+            fitColumns: true,
+            sortable: true,
+            sortName: 'Id',
+            sortOrder: 'desc',
+            idField: 'Id',
+            pageSize: 15,
+            pageList: [15, 20, 30, 40, 50],
+            pagination: true,
+            striped: true, //奇偶行是否区分
+            singleSelect: true,//单选模式
+            rownumbers: true,//行号
+            columns: [[
+                { field: 'Id', title: 'Id', width: 60 },
+                { field: 'Name', title: 'Name', width: 60 },
+                { field: 'EnglishName', title: 'EnglishName', width: 100 },
+                { field: 'ParentId', title: 'ParentId', width: 100 }
+            ]]
+        });
+    });
+
+
+</script>
+
+
+  @*Id = r.Id,
+                            Name = r.Name,
+                            EnglishName = r.EnglishName,
+                            ParentId = r.ParentId,
+                            Url = r.Url,
+                            Iconic = r.Iconic,
+                            Sort = r.Sort,
+                            Remark = r.Remark,
+                            Enable = r.Enable,
+                            CreatePerson = r.CreatePerson,
+                            CreateTime = r.CreateTime,
+                            IsLast = r.IsLast*@

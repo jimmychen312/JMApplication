@@ -10,8 +10,7 @@ namespace JMApplicationService
     {
 
         ISysSampleDataService _sysSampleDataService;
-        //ISysModuleDataService _sysModuleDataService;
-
+        
         private ISysSampleDataService SysSampleDataService
         {
             get { return _sysSampleDataService; }

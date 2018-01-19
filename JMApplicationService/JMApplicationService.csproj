@@ -41,12 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SysModuletestApplicationService.cs" />
+    <Compile Include="PaymentTypeApplicationService.cs" />
+    <Compile Include="SysModuleApplicationService.cs" />
+    <Compile Include="SysModuleOperateApplicationService.cs" />
+    <Compile Include="SysRightApplicationService.cs" />
     <Compile Include="SysExceptionApplicationService.cs" />
     <Compile Include="AccountApplicationService.cs" />
-    <Compile Include="SysUserApplicationService.cs" />
     <Compile Include="SysSampleApplicationService.cs" />
     <Compile Include="SysLogApplicationService.cs" />
-    <Compile Include="SysModuleApplicationService.cs" />
+    <Compile Include="ManageApplicationService.cs" />
     <Compile Include="CustomerApplicationService.cs" />
     <Compile Include="CustomerBusinessRules.cs" />
     <Compile Include="Utilities.cs" />
@@ -66,6 +70,10 @@
     <ProjectReference Include="..\JMDataServiceInterface\JMDataServiceInterface.csproj">
       <Project>{8faf1b34-ae68-41e0-957f-510ee50ca9e7}</Project>
       <Name>JMDataServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JMEFDataAccess\JMEFDataAccess.csproj">
+      <Project>{de26ea8e-d8f5-4008-a9d9-25190470da3f}</Project>
+      <Name>JMEFDataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\JMModels\JMModels.csproj">
       <Project>{e392bb42-69f3-48f8-9440-b34bfc0badb0}</Project>

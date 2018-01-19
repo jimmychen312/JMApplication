@@ -12,21 +12,17 @@ namespace JMApplication.Controllers
 {
     public class ManageController : Controller
     {
-        ISysModuleDataService sysModuleDataService;
+        IManageDataService sysModuleDataService;
 
         /// <summary>
         /// Constructor with Dependency Injection using Ninject
         /// </summary>
         /// <param name="dataService"></param>
-        public ManageController(ISysModuleDataService dataService)
+        public ManageController(IManageDataService dataService)
         {
             sysModuleDataService = dataService;
         }
-
         
-        //[Ninject.Inject]
-        //public ISysModuleDataService sysModuleDataService { get; set; }
-
         // GET: Manage
         public ActionResult Index()
         {
@@ -48,7 +44,7 @@ namespace JMApplication.Controllers
 
                 SysModuleInquiryViewModel sysModuleInquiryViewModel = new SysModuleInquiryViewModel();
 
-                SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
+                ManageApplicationService sysModuleApplicationService = new ManageApplicationService(sysModuleDataService);
                 List<SysModuleInquiry> sysModules = sysModuleApplicationService.GetMenuByPersonId(account.Id, Id, out transaction);
 
                 if (Id != string.Empty)

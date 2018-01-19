@@ -114,8 +114,8 @@ namespace JMApplicationService
                 SysExceptionDataService.BeginTransaction();
                 SysExceptionDataService.CreateSysException(sysException);
                 SysExceptionDataService.CommitTransaction(true);
-                    transaction.ReturnStatus = true;
-                    transaction.ReturnMessage.Add("SysException successfully created at " + sysException.CreateTime.ToString());
+                transaction.ReturnStatus = true;
+                transaction.ReturnMessage.Add("SysException successfully created at " + sysException.CreateTime.ToString());
                 //}
                 //else
                 //{

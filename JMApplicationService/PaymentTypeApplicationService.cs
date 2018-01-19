@@ -1,48 +1,48 @@
 ﻿using JMDataServiceInterface;
+using JMModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JMModels;
-using JMCommon;
 
 namespace JMApplicationService
 {
-    public class SysUserApplicationService
+
+    public class PaymentTypeApplicationService
     {
-        ISysRightDataService _sysRightDataService;
-        
-        private ISysRightDataService SysUserDataService
+
+        IPaymentTypeDataService _paymentTypeDataService;  
+
+        private IPaymentTypeDataService PaymentTypeDataService
         {
-            get { return _sysRightDataService; }
+            get { return _paymentTypeDataService; }
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public SysUserApplicationService(ISysRightDataService dataService)
+        public PaymentTypeApplicationService(IPaymentTypeDataService dataService)
         {
-            _sysRightDataService = dataService;
+            _paymentTypeDataService = dataService;
         }
 
+         
 
         /// <summary>
-        /// GetPermission
+        /// Get Payment Types
         /// </summary>
-        /// <param name="accountid"></param>
-        /// <param name="controller"></param>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public List<Permission> GetPermission(string accountid, string controller, out TransactionalInformation transaction)
+        public List<PaymentType> GetPaymentTypes(out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             try
             {
-                SysUserDataService.CreateSession();
-                List<Permission> permission = GetPermission(accountid, controller,out transaction);                
+                PaymentTypeDataService.CreateSession();
+                List<PaymentType> paymentTypes = PaymentTypeDataService.GetPaymentTypes();
                 transaction.ReturnStatus = true;
-                return permission;
+                return paymentTypes;
             }
             catch (Exception ex)
             {
@@ -54,9 +54,13 @@ namespace JMApplicationService
             }
             finally
             {
-                SysUserDataService.CloseSession();
+                PaymentTypeDataService.CloseSession();
             }
 
         }
+         
+
     }
+
+
 }

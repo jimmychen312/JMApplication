@@ -42,6 +42,7 @@
             methord: 'post',
             height: $(window).height() - 35,
             fitColumns: true,
+            remoteSort: false,          
             sortName: 'Id',
             sortOrder: 'desc',
             idField: 'Id',
@@ -50,14 +51,22 @@
             pagination: true,
             striped: true, //奇偶行是否区分
             singleSelect: true,//单选模式
+            onSortColumn: function (sort, order) {
+                //alert("sort:" + sort + ",order：" + order + "");  
+                $('#List').datagrid('reload', {
+                    sort: sort,
+                    order: order
+                });
+            },
             columns: [[
-                { field: 'Id', title: 'ID', width: 40, hidden: true },
-                { field: 'Operator', title: '操作人', width: 40 },
+                { field: 'Id', title: 'ID', width: 40 , sortable: true},
+                { field: 'Operator', title: '操作人', width: 40, sortable: true },
+
                 { field: 'Message', title: '信息', width: 280 },
                 { field: 'Result', title: '结果', width: 40, align: 'center' },
-                { field: 'Type', title: '类型', width: 40, align: 'center' },
-                { field: 'Module', title: '模块', width: 60, align: 'center' },
-                { field: 'CreateTime', title: '添加时间', width: 65, align: 'center' }
+                { field: 'Type', title: '类型', width: 40, align: 'center', sortable: true },
+                { field: 'Module', title: '模块', width: 60, align: 'center', sortable: true },
+                { field: 'CreateTime', title: '添加时间', width: 65, align: 'center' ,sortable: true }
             ]]
         });
     });

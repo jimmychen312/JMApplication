@@ -63,23 +63,24 @@
             height:$(window).height() - 35,
             methord: 'post',            
             fitColumns: true,
+            remoteSort: true,   
             sortName: 'Id',
-            sortOrder: 'desc',
+            sortOrder: 'asc',
             idField: 'Id',
             pageSize: 15,
             pageList: [15, 20, 30, 40, 50],
             pagination: true,
             striped: true, //奇偶行是否区分
             singleSelect: true,//单选模式
-            rownumbers: true,//行号
+            rownumbers: true,//行号         
             columns: [[
-                { field: 'Id', title: 'ID', width: 60 },
+                { field: 'Id', title: 'ID', width: 60, sortable: true},
                 { field: 'Name', title: '名称', width: 100 },
                 { field: 'Age', title: '年龄', width: 60, align: 'right' },
-                { field: 'Bir', title: '生日', width: 60, align: 'right' },
+                { field: 'Bir', title: '生日', width: 60, align: 'right', sortable: true},
                 { field: 'Photo', title: '照片', width: 150 },
                 { field: 'Note', title: '说明', width: 60, align: 'center' },
-                { field: 'CreateTime', title: '创建时间', width: 60, align: 'center' }
+                { field: 'CreateTime', title: '创建时间', width: 60, align: 'center', sortable: true }
             ]]
         });
     });

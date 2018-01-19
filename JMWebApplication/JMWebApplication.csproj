@@ -341,6 +341,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseException.cs" />
+    <Compile Include="Controllers\SysModuletestController.cs" />
+    <Compile Include="Controllers\PaymentTypeController.cs" />
     <Compile Include="Controllers\Sys\SysExceptionController.cs" />
     <Compile Include="Controllers\Sys\SysLogController.cs" />
     <Compile Include="Controllers\CustomersApiController.cs" />
@@ -349,8 +352,9 @@
     <Compile Include="Controllers\Sys\ManageController.cs" />
     <Compile Include="Controllers\SeedDataApiController.cs" />
     <Compile Include="Controllers\SeedDataController.cs" />
+    <Compile Include="Controllers\Sys\SysModuleController.cs" />
+    <Compile Include="Controllers\Sys\SysRightController.cs" />
     <Compile Include="Controllers\Sys\SysSampleController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Core\verify_code.ashx.cs">
       <DependentUpon>verify_code.ashx</DependentUpon>
     </Compile>
@@ -376,6 +380,7 @@
     <Compile Include="ViewModels\Manage\SysExceptionMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\AccountViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysLogMaintenanceViewModel.cs" />
+    <Compile Include="ViewModels\Manage\SysRightInquiryViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleInquiryViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysLogInquiryViewModel.cs" />
@@ -1119,10 +1124,20 @@
     <Content Include="Views\SysException\Details.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\SysSample\Test.cshtml" />
+    <Content Include="Views\SysRight\Index.cshtml" />
+    <Content Include="Views\SysException\Error.cshtml" />
+    <Content Include="Views\SysModule\Index.cshtml" />
+    <Content Include="Views\SysModule\Edit.cshtml" />
+    <Content Include="Views\SysModule\Create.cshtml" />
+    <Content Include="Views\SysModule\CreateOpt.cshtml" />
+    <Content Include="Views\PaymentType\Index.cshtml" />
+    <Content Include="Views\SysModuletest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\PaymentTypes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1169,6 +1184,9 @@
     <EmbeddedResource Include="Migrations\201710240157561_Initial.resx">
       <DependentUpon>201710240157561_Initial.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

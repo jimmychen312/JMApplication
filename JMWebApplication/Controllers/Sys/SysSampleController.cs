@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using JMModels;
+﻿using JMApplication.Helpers;
 using JMApplication.ViewModels.Manage;
 using JMApplicationService;
-using JMDataServiceInterface;
-using JMApplication.Helpers;
-using System.Net;
-using System.Net.Http;
-using JMApplication.ViewModels;
-using JMApplication.ViewModels.Customers;
-using JMEFDataAccess;
-using JMApplication.Filters;
-using System.Web.Security;
-using JMCore;
 using JMCommon;
+using JMCore;
+using JMDataServiceInterface;
+using JMModels;
 using JMWebApplication.Controllers;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace JMApplication.Controllers
 {
@@ -43,29 +34,29 @@ namespace JMApplication.Controllers
 
         // GET: SysSample
         public ActionResult Index()
-        {
+        {            
             return View();
         }
 
         
         [System.Web.Mvc.HttpPost]
-        public JsonResult GetList(string queryStr, int page, int rows, string SortExpression, string SortDirection)
+        public JsonResult GetList(string queryStr, int page, int rows, string Sort, string Order)
         {
             //int total = 0;
 
             TransactionalInformation transaction;
 
             if (queryStr == null) queryStr = string.Empty;
-            if (SortDirection == null) SortDirection = string.Empty;
-            if (SortExpression == null) SortExpression = string.Empty;
+            if (Order == null) Order = string.Empty;
+            if (Sort == null) Sort = string.Empty;
 
             SysSampleInquiryViewModel sysSampleInquiryViewModel = new SysSampleInquiryViewModel();
             
             DataGridPagingInformation paging = new DataGridPagingInformation();
             paging.CurrentPageNumber = page;
             paging.PageSize = rows;
-            paging.SortExpression = SortExpression;;
-            paging.SortDirection = SortDirection;
+            paging.SortExpression = Sort; 
+            paging.SortDirection = Order;
 
             if (paging.SortDirection == "") paging.SortDirection = "ASC";
             if (paging.SortExpression == "") paging.SortExpression = "Id";
@@ -79,9 +70,9 @@ namespace JMApplication.Controllers
             sysSampleInquiryViewModel.ReturnStatus = transaction.ReturnStatus;
             sysSampleInquiryViewModel.ReturnMessage = transaction.ReturnMessage;
 
-            //sysSampleInquiryViewModel.TotalPages = paging.TotalPages;
-            //sysSampleInquiryViewModel.TotalRows = paging.TotalRows;
-            //sysSampleInquiryViewModel.PageSize = paging.PageSize;
+            sysSampleInquiryViewModel.TotalPages = paging.TotalPages;
+            sysSampleInquiryViewModel.TotalRows = paging.TotalRows;
+            sysSampleInquiryViewModel.PageSize = paging.PageSize;
 
             var json = new
             {
@@ -111,14 +102,14 @@ namespace JMApplication.Controllers
         {
             return View();
         }
-                 
+
 
         /// <summary>
         /// Create SysSample
         /// </summary>
         /// <param name="postedFormData"></param>
         /// <returns></returns>
-
+        [SupportFilter]
         [HttpPost]
         public JsonResult Create (FormCollection postedFormData,[System.Web.Http.FromBody] SysSampleMaintenanceDTO sysSampleDTO)
         {

@@ -32,7 +32,7 @@ namespace JMApplication.ViewModels.Manage
         public string Iconic { get; set; }
         public int Sort { get; set; }
         public string Remark { get; set; }
-        public Boolean State { get; set; }
+        public Boolean Enable { get; set; }
         public string CreatePerson { get; set; }
         public DateTime CreateTime { get; set; }
         public Boolean IsLast { get; set; }

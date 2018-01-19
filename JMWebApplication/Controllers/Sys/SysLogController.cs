@@ -26,67 +26,125 @@ namespace JMApplication.Controllers
             sysLogDataService = dataService;
         }
 
-
-
         /// <summary>
         /// GetList
         /// </summary>
         /// <param name="id">所属</param>
         /// <returns>json</returns>
-        
-        public JsonResult SysLogInquiry(string queryStr, int page, int rows, string SortExpression, string SortDirection)
+
+        public JsonResult SysLogInquiry(string queryStr, int page, int rows, string sort, string order)
         {
             TransactionalInformation transaction;
 
             if (queryStr == null) queryStr = string.Empty;
-            if (SortDirection == null) SortDirection = string.Empty;
-            if (SortExpression == null) SortExpression = string.Empty;
+            if (order == null) order = string.Empty;
+            if (sort == null) sort = string.Empty;
 
             SysLogInquiryViewModel sysLogInquiryViewModel = new SysLogInquiryViewModel();
 
             DataGridPagingInformation paging = new DataGridPagingInformation();
             paging.CurrentPageNumber = page;
             paging.PageSize = rows;
-            paging.SortExpression = SortExpression; ;
-            paging.SortDirection = SortDirection;
+            paging.SortExpression = sort; ;
+            paging.SortDirection = order;
 
             if (paging.SortDirection == "") paging.SortDirection = "ASC";
             if (paging.SortExpression == "") paging.SortExpression = "Id";
 
             SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(sysLogDataService);
-            List<SysLogInquiry> sysLogs = sysLogApplicationService.SysLogInquiry(queryStr,paging, out transaction);
+            List<SysLogInquiry> sysLogs = sysLogApplicationService.SysLogInquiry(queryStr, paging, out transaction);
 
             //if (id != string.Empty)
             //{
-                sysLogInquiryViewModel.SysLogInquiry = sysLogs;
-                sysLogInquiryViewModel.ReturnStatus = transaction.ReturnStatus;
-                sysLogInquiryViewModel.ReturnMessage = transaction.ReturnMessage;
+            sysLogInquiryViewModel.SysLogInquiry = sysLogs;
+            sysLogInquiryViewModel.ReturnStatus = transaction.ReturnStatus;
+            sysLogInquiryViewModel.ReturnMessage = transaction.ReturnMessage;
 
-                var json = new
-                {
-                    total = paging.TotalRows,
-                    rows = (from m in sysLogInquiryViewModel.SysLogInquiry
-                            select new SysLog()
-                            {
-                                Id = m.Id,
-                                Operator = m.Operator,
-                                Message = m.Message,
-                                Result = m.Result,
-                                Type = m.Type,
-                                Module = m.Module,
-                                CreateTime = m.CreateTime
-                            }
-                            ).ToArray()
-                };
+            var json = new
+            {
+                total = paging.TotalRows,
+                rows = (from m in sysLogInquiryViewModel.SysLogInquiry
+                        select new SysLog()
+                        {
+                            Id = m.Id,
+                            Operator = m.Operator,
+                            Message = m.Message,
+                            Result = m.Result,
+                            Type = m.Type,
+                            Module = m.Module,
+                            CreateTime = m.CreateTime
+                        }
+                        ).ToArray()
+            };
 
-                 return Json(json);
+            return Json(json);
             //}
             //else
             //{
             //    return Json("");
             //}
-                       
+
         }
+
+        ///// <summary>
+        ///// GetList
+        ///// </summary>
+        ///// <param name="id">所属</param>
+        ///// <returns>json</returns>
+
+        //public JsonResult SysLogInquiry(string queryStr, int page, int rows, string SortExpression, string SortDirection)
+        //{
+        //    TransactionalInformation transaction;
+
+        //    if (queryStr == null) queryStr = string.Empty;
+        //    if (SortDirection == null) SortDirection = string.Empty;
+        //    if (SortExpression == null) SortExpression = string.Empty;
+
+        //    SysLogInquiryViewModel sysLogInquiryViewModel = new SysLogInquiryViewModel();
+
+        //    DataGridPagingInformation paging = new DataGridPagingInformation();
+        //    paging.CurrentPageNumber = page;
+        //    paging.PageSize = rows;
+        //    paging.SortExpression = SortExpression; ;
+        //    paging.SortDirection = SortDirection;
+
+        //    if (paging.SortDirection == "") paging.SortDirection = "ASC";
+        //    if (paging.SortExpression == "") paging.SortExpression = "Id";
+
+        //    SysLogApplicationService sysLogApplicationService = new SysLogApplicationService(sysLogDataService);
+        //    List<SysLogInquiry> sysLogs = sysLogApplicationService.SysLogInquiry(queryStr,paging, out transaction);
+
+        //    //if (id != string.Empty)
+        //    //{
+        //        sysLogInquiryViewModel.SysLogInquiry = sysLogs;
+        //        sysLogInquiryViewModel.ReturnStatus = transaction.ReturnStatus;
+        //        sysLogInquiryViewModel.ReturnMessage = transaction.ReturnMessage;
+
+        //        var json = new
+        //        {
+        //            total = paging.TotalRows,
+        //            rows = (from m in sysLogInquiryViewModel.SysLogInquiry
+        //                    select new SysLog()
+        //                    {
+        //                        Id = m.Id,
+        //                        Operator = m.Operator,
+        //                        Message = m.Message,
+        //                        Result = m.Result,
+        //                        Type = m.Type,
+        //                        Module = m.Module,
+        //                        CreateTime = m.CreateTime
+        //                    }
+        //                    ).ToArray()
+        //        };
+
+        //         return Json(json);
+        //    //}
+        //    //else
+        //    //{
+        //    //    return Json("");
+        //    //}
+
+        //}
 
 
         public ActionResult Index()

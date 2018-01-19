@@ -31,7 +31,7 @@ namespace JMEFDataAccess
             DateTime dateCreated = System.DateTime.Now;
             sysLog.Id = Guid.NewGuid().ToString();
             sysLog.CreateTime = dateCreated;
-            dbConnection.SysLog.Add(sysLog);
+            dbConnection.SysLogs.Add(sysLog);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace JMEFDataAccess
         /// <returns></returns>
         public SysLog GetSysLogById(string sysLogID)
         {
-            var sysLogInformation = dbConnection.SysLog.First(c => c.Id == sysLogID);
+            var sysLogInformation = dbConnection.SysLogs.First(c => c.Id == sysLogID);
             SysLog sysLog = sysLogInformation as SysLog;
             return sysLog;
         }
@@ -83,7 +83,7 @@ namespace JMEFDataAccess
             if (paging.SortDirection != string.Empty)
                 sortExpression = sortExpression + " " + paging.SortDirection;
 
-            var sysLogQuery = dbConnection.SysLog.AsQueryable();
+            var sysLogQuery = dbConnection.SysLogs.AsQueryable();
 
             if (queryStr != null && queryStr.Trim().Length > 0)
             {

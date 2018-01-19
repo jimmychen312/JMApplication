@@ -9,8 +9,10 @@ namespace JMModels
     public class Permission
     {
         public string KeyCode { get; set; }//操作码
-        public bool IsValid { get; set; }//是否验证        
+        public Boolean IsValid { get; set; }//是否验证        
+               
     }
+
 }
 
  
