@@ -46,10 +46,19 @@
 </div>
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.Id)
+    @*@Html.HiddenFor(model => model.Id)*@
     @Html.HiddenFor(model => model.CreateTime)
     <table class="fromEditTable setTextWidth300">
         <tbody>
+            <tr>
+                <td style="width:100px; text-align:right;">
+                    @Html.LabelFor(model => model.Id)：
+                </td>
+                <td style="width:310px">
+                    @Html.EditorFor(model => model.Id)
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.Id)</td>
+            </tr>
             <tr>
                 <td style="width:100px; text-align:right;">
                     @Html.LabelFor(model => model.Name)：
@@ -116,7 +125,7 @@
             </tr>
 
             <tr>
-                <td style="width:100px; text-align:right;">
+                <td style="width:120px; text-align:right;">
                     @Html.LabelFor(model => model.IsLast)：
                 </td>
                 <td style="width:310px">

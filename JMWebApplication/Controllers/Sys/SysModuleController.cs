@@ -11,19 +11,12 @@ using JMDataServiceInterface;
 using JMCore;
 using JMApplication.ViewModels.Manage;
 using JMApplication.Helpers;
+using JMApplication.Filters;
 
 namespace JMApplication.Controllers
 {
     public class SysModuleController : BaseController
-    {
-        ///// <summary>
-        ///// 业务层注入
-        ///// </summary>
-        //[Dependency]
-        //public ISysModuleBLL m_BLL { get; set; }
-        //[Dependency]
-        //public ISysModuleOperateBLL operateBLL { get; set; }
-
+    {        
         ISysModuleDataService sysModuleDataService;
         ISysModuleOperateDataService sysModuleOperateDataService;
 
@@ -128,8 +121,7 @@ namespace JMApplication.Controllers
         {
             TransactionalInformation transaction;
             SysModuleOperateApplicationService sysModuleOperateApplicationService = new SysModuleOperateApplicationService(sysModuleOperateDataService);
-
-           
+                      
             List<SysModuleOperate> list = sysModuleOperateApplicationService.GetList(out  transaction,  mid);
             var json = new
             {
@@ -182,28 +174,37 @@ namespace JMApplication.Controllers
 
 
         #region 创建模块
-        //[SupportFilter]
-        [SupportFilter(ActionName = "Create")]
-        public ActionResult Create(string id)
+        [SupportFilter]
+        //[SupportFilter(ActionName = "Create")]
+        public ActionResult Create(string parentid)
         {
             ViewBag.Perm = GetPermission();
-            SysModule entity = new SysModule()
+
+            SysModule sysModule = new SysModule()
+
             {
-                ParentId = id,
+                Id= "输入Id",
+                ParentId = parentid,
                 Enable = true,
                 Sort = 0
+
             };
-            return View(entity);
+            return View(sysModule);
         }
 
         [HttpPost]
         //[SupportFilter(ActionName = "Create")]
          
-        public JsonResult Create(FormCollection postedFormData, [System.Web.Http.FromBody] SysModuleMaintenanceDTO sysModuleDTO)
+        public JsonResult Create(FormCollection postedFormData, SysModuleMaintenanceDTO sysModuleDTO)
         {
             TransactionalInformation transaction;
             SysModuleMaintenanceViewModel sysModuleMainteranceViewModel = new SysModuleMaintenanceViewModel();
             SysModule sysModule = new SysModule();
+
+            sysModuleDTO.CreatePerson = GetUserId();
+            sysModuleDTO.EnglishName = sysModuleDTO.Name;
+            sysModuleDTO.State = "open";
+
             ModelStateHelper.UpdateViewModel(sysModuleDTO, sysModule);
             
             SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
@@ -213,7 +214,7 @@ namespace JMApplication.Controllers
             sysModuleMainteranceViewModel.ReturnStatus = transaction.ReturnStatus;
             sysModuleMainteranceViewModel.ReturnMessage = transaction.ReturnMessage;
             sysModuleMainteranceViewModel.ValidationErrors = transaction.ValidationErrors;
-
+            
             if (transaction.ReturnStatus == false)
             {
                 string ErrorCol = errors.Error;
@@ -231,95 +232,136 @@ namespace JMApplication.Controllers
         #endregion
 
 
-        //#region 创建
+        #region 创建
+        [SupportFilter(ActionName = "Create")]
+        public ActionResult CreateOpt(string moduleId)
+        {            
+            ViewBag.Perm = GetPermission();
+            SysModuleOperate sysModuleOpt = new SysModuleOperate();
+
+            sysModuleOpt.ModuleId = moduleId;
+            sysModuleOpt.IsValid = true;
+            return View(sysModuleOpt);
+
+        }
+
+        
+        [HttpPost]
         //[SupportFilter(ActionName = "Create")]
-        //public ActionResult CreateOpt(string moduleId)
+        public JsonResult CreateOpt(FormCollection postedFormData, SysModuleOperateMaintenanceDTO sysModuleOperateDTO)
+        {
+            TransactionalInformation transaction;
+            SysModuleOperateMaintenancViewModel sysModuleOperateMaintenancViewModel = new SysModuleOperateMaintenancViewModel();
+
+             
+        //if (!ModelState.IsValid)
         //{
-        //    //TransactionalInformation transaction;
-        //    SysModuleOperateApplicationService sysModuleOperateApplicationService = new SysModuleOperateApplicationService(sysModuleOperateDataService);
+        //    var errors = ModelState.errors();
+        //sysModuleOperateMaintenancViewModel.ReturnMessage = ModelStateHelper.ReturnErrorMessages(errors);
+        //    sysModuleOperateMaintenancViewModel.ValidationErrors = ModelStateHelper.ReturnValidationErrors(errors);
+        //    sysModuleOperateMaintenancViewModel.ReturnStatus = false;
+        //    var badresponse = Request.CreateResponse<CustomerMaintenanceViewModel>(HttpStatusCode.BadRequest, customerMaintenanceViewModel);
+        //    return badresponse;
 
-        //    ViewBag.Perm = GetPermission();
-        //    SysModuleOperate sysModuleOpt = new SysModuleOperate();
-        //    sysModuleOpt.ModuleId = moduleId;
-        //    sysModuleOpt.IsValid = true;
-        //    return View(sysModuleOpt);
         //}
+            SysModuleOperate sysModuleOperate = new SysModuleOperate();
+            
+            ModelStateHelper.UpdateViewModel(sysModuleOperateDTO, sysModuleOperate);
 
+            sysModuleOperate.Id = sysModuleOperate.ModuleId + sysModuleOperate.KeyCode;
 
-        //[HttpPost]
-        //[SupportFilter(ActionName = "Create")]
-        //public JsonResult CreateOpt(SysModuleOperate info)
-        //{
-        //    SysModuleOperateApplicationService sysModuleOperateApplicationService = new SysModuleOperateApplicationService(sysModuleOperateDataService);
+            SysModuleOperateApplicationService sysModuleOperateApplicationService = new SysModuleOperateApplicationService(sysModuleOperateDataService);
+            sysModuleOperateApplicationService.CreateSysModuleOperate(sysModuleOperate, out transaction);
 
-        //    if (info != null && ModelState.IsValid)
-        //    {
-        //        SysModuleOperate entity = sysModuleOperateApplicationService.GetSysModuleOperateById(info.Id);
-        //        if (entity != null)
-        //            return Json(JsonHandler.CreateMessage(0, Suggestion.PrimaryRepeat), JsonRequestBehavior.AllowGet);
-        //        entity = new SysModuleOperate();
-        //        entity.Id = info.ModuleId + info.KeyCode;
-        //        entity.Name = info.Name;
-        //        entity.KeyCode = info.KeyCode;
-        //        entity.ModuleId = info.ModuleId;
-        //        entity.IsValid = info.IsValid;
-        //        entity.Sort = info.Sort;
+            sysModuleOperateMaintenancViewModel.SysModuleOperate = sysModuleOperate;
+            sysModuleOperateMaintenancViewModel.ReturnStatus = transaction.ReturnStatus;
+            sysModuleOperateMaintenancViewModel.ReturnMessage = transaction.ReturnMessage;
+            sysModuleOperateMaintenancViewModel.ValidationErrors = transaction.ValidationErrors;
 
-        //        if (sysModuleOperateApplicationService.CreateSysModuleOperate(ref errors, entity))
-        //        {
-        //            LogHandler.WriteServiceLog(GetUserId(), "Id:" + info.Id + ",Name:" + info.Name, "成功", "创建", "模块设置");
-        //            return Json(JsonHandler.CreateMessage(1, Suggestion.InsertSucceed), JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            string ErrorCol = errors.Error;
-        //            LogHandler.WriteServiceLog(GetUserId(), "Id:" + info.Id + ",Name:" + info.Name + "," + ErrorCol, "失败", "创建", "模块设置");
-        //            return Json(JsonHandler.CreateMessage(0, Suggestion.InsertFail + ErrorCol), JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return Json(JsonHandler.CreateMessage(0, Suggestion.InsertFail), JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //#endregion
+            if (transaction.ReturnStatus == false)
+            {
+                string ErrorCol = errors.Error;
+                LogHandler.WriteServiceLog(GetUserId(), "Id" + sysModuleOperate.Id + ",Name" + sysModuleOperate.Name + "," + ErrorCol, "失败", "创建", "SysModule");
+                return Json(JsonHandler.CreateMessage(0, Suggestion.InsertFail + ErrorCol), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                LogHandler.WriteServiceLog(GetUserId(), "Id" + sysModuleOperate.Id + ",Name" + sysModuleOperate.Name, "成功", "创建", "SysModule");
+                return Json(JsonHandler.CreateMessage(1, Suggestion.InsertSucceed), JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
 
-        //#region 修改模块
-        //[SupportFilter]
-        //public ActionResult Edit(string id)
-        //{
-        //    SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
-        //    ViewBag.Perm = GetPermission();
-        //    SysModule entity = sysModuleApplicationService.GetById(id);
-        //    return View(entity);
-        //}
+        #region 修改模块
+        [SupportFilter]
+        public ActionResult Edit(string id)
+        {
+            TransactionalInformation transaction;          
+            SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
+            ViewBag.Perm = GetPermission();
+            SysModule sysModule = sysModuleApplicationService.GetSysModuleBySysModuleID(id, out transaction);
+            return View(sysModule);
+        }
 
-        //[HttpPost]
-        //[SupportFilter]
-        //public JsonResult Edit(SysModule model)
-        //{
-        //    SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
+        [HttpPost]
+        [SupportFilter(ActionName = "Edit")]
+        public JsonResult Edit(FormCollection postedFormData, SysModuleMaintenanceDTO sysModuleDTO)
+        {
+            TransactionalInformation transaction;
+            SysModuleMaintenanceViewModel sysModuleMainteranceViewModel = new SysModuleMaintenanceViewModel();
 
-        //    if (model != null && ModelState.IsValid)
-        //    {
-        //        if (sysModuleApplicationService.UpdateSysModule(ref errors, model))
-        //        {
-        //            LogHandler.WriteServiceLog(GetUserId(), "Id" + model.Id + ",Name" + model.Name, "成功", "修改", "系统菜单");
-        //            return Json(JsonHandler.CreateMessage(1, Suggestion.EditSucceed));
-        //        }
-        //        else
-        //        {
-        //            string ErrorCol = errors.Error;
-        //            LogHandler.WriteServiceLog(GetUserId(), "Id" + model.Id + ",Name" + model.Name + "," + ErrorCol, "失败", "修改", "系统菜单");
-        //            return Json(JsonHandler.CreateMessage(0, Suggestion.EditFail + ErrorCol));
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return Json(JsonHandler.CreateMessage(0, Suggestion.EditFail));
-        //    }
-        //}
-        //#endregion
+            SysModule sysModule = new SysModule();
+
+            sysModuleDTO.CreatePerson = GetUserId();
+            sysModuleDTO.EnglishName = sysModuleDTO.Name;
+            sysModuleDTO.State = "open";
+
+            ModelStateHelper.UpdateViewModel(sysModuleDTO, sysModule);
+
+            SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
+            sysModuleApplicationService.UpdateSysModule(sysModule, out transaction);
+
+            sysModuleMainteranceViewModel.SysModule = sysModule;
+            sysModuleMainteranceViewModel.ReturnStatus = transaction.ReturnStatus;
+            sysModuleMainteranceViewModel.ReturnMessage = transaction.ReturnMessage;
+            sysModuleMainteranceViewModel.ValidationErrors = transaction.ValidationErrors;
+                        
+            if (transaction.ReturnStatus == false)
+            {
+                string ErrorCol = errors.Error;
+                LogHandler.WriteServiceLog(GetUserId(), "Id" + sysModule.Id + ",Name" + sysModule.Name + "," + ErrorCol, "失败", "修改", "SysModule");
+                return Json(JsonHandler.CreateMessage(0, Suggestion.InsertFail + ErrorCol), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                LogHandler.WriteServiceLog(GetUserId(), "Id" + sysModule.Id + ",Name" + sysModule.Name, "成功", "修改", "SysModule");
+                return Json(JsonHandler.CreateMessage(1, Suggestion.InsertSucceed), JsonRequestBehavior.AllowGet);
+            }
+           
+
+            //TransactionalInformation transaction;
+            //SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
+
+            //if (model != null && ModelState.IsValid)
+            //{
+            //    if (sysModuleApplicationService.UpdateSysModule(ref errors, model))
+            //    {
+            //        LogHandler.WriteServiceLog(GetUserId(), "Id" + model.Id + ",Name" + model.Name, "成功", "修改", "系统菜单");
+            //        return Json(JsonHandler.CreateMessage(1, Suggestion.EditSucceed));
+            //    }
+            //    else
+            //    {
+            //        string ErrorCol = errors.Error;
+            //        LogHandler.WriteServiceLog(GetUserId(), "Id" + model.Id + ",Name" + model.Name + "," + ErrorCol, "失败", "修改", "系统菜单");
+            //        return Json(JsonHandler.CreateMessage(0, Suggestion.EditFail + ErrorCol));
+            //    }
+            //}
+            //else
+            //{
+            //    return Json(JsonHandler.CreateMessage(0, Suggestion.EditFail));
+            //}
+        }
+        #endregion
 
 
 
@@ -328,10 +370,13 @@ namespace JMApplication.Controllers
         //[SupportFilter]
         //public JsonResult Delete(string id)
         //{
+        //    TransactionalInformation transaction;
         //    SysModuleApplicationService sysModuleApplicationService = new SysModuleApplicationService(sysModuleDataService);
 
         //    if (!string.IsNullOrWhiteSpace(id))
-        //    {
+        //    {                           
+        //        sysModuleApplicationService.(sysModule, out transaction);
+
         //        if (sysModuleApplicationService.DeleteSysModuleById(ref errors, id))
         //        {
         //            LogHandler.WriteServiceLog(GetUserId(), "Ids:" + id, "成功", "删除", "模块设置");

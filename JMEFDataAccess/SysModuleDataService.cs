@@ -102,9 +102,10 @@ namespace JMEFDataAccess
         {
             DateTime dateCreated = System.DateTime.Now;
 
-            sysModule.Id = Guid.NewGuid().ToString ();
+            //sysModule.Id = Guid.NewGuid().ToString ();
             sysModule.CreateTime = dateCreated;
-            sysModule.CreatePerson = "Admin";
+            //sysModule.CreatePerson = "Admin";
+            
             //sysModule.DateUpdated = dateCreated;
             dbConnection.SysModules.Add(sysModule);
             //return dbConnection.SaveChanges();
@@ -145,19 +146,17 @@ namespace JMEFDataAccess
             }
         }
 
-        ///// <summary>
-        ///// Update SysModule
-        ///// </summary>
-        ///// <param name="sysModule"></param>
-        //public int UpdateSysModule(SysModule sysModule)
-        //{
-        //    DateTime dateUpdated = System.DateTime.Now;
-        //    sysModule.CreateTime = dateUpdated;
-        //    return dbConnection.SaveChanges();
-        //}
-
-
-
+        /// <summary>
+        /// Update SysModule
+        /// </summary>
+        /// <param name="sysModule"></param>
+        public int UpdateSysModule(SysModule sysModule)
+        {
+            DateTime dateUpdated = System.DateTime.Now;
+            sysModule.CreateTime = dateUpdated;
+            return dbConnection.SaveChanges();
+        }
+        
         /// <summary>
         /// Get SysModule By Module Id
         /// </summary>

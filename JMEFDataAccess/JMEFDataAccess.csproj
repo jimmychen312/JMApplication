@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
-    <Compile Include="SysModuletestDataService.cs.cs" />
     <Compile Include="PaymentTypeDataService.cs" />
     <Compile Include="SysModuleDataService.cs" />
     <Compile Include="SysModuleOperateDataService.cs" />

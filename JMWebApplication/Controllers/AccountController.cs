@@ -16,10 +16,10 @@ using JMApplicationService;
 using JMDataServiceInterface;
 using JMApplication.ViewModels.Manage;
 using JMApplication.Helpers;
+using System.Collections.Generic;
 
 namespace JMWebApplication.Controllers
 {   
-
     //[Authorize]
     public class AccountController : Controller
     {
@@ -38,64 +38,45 @@ namespace JMWebApplication.Controllers
         // GET: /Account/Index
         [AllowAnonymous]
         public ActionResult Index()
-        {
-            //Account account = new Account();
-            //account.Id = "admin";
-            //account.TrueName = "admin";
-            //Session["Account"] = account;
-
+        {          
             return View();
         }
 
-        [AllowAnonymous]
-       
+        [AllowAnonymous]       
         public JsonResult Login(string UserName, string Password, string Code, SysUserMaintenanceDTO sysUserMaintenanceDTO)
-        {
-             
-            //TransactionalInformation transaction;
-
-            //SysSampleMaintenanceViewModel sysSampleMaintenanceViewModel = new SysSampleMaintenanceViewModel();
-
-            //SysSample sysSample = new SysSample();
-
-            //ModelStateHelper.UpdateViewModel(sysSampleDTO, sysSample);
-
-            //SysSampleApplicationService sysSampleApplicationService = new SysSampleApplicationService(sysSampleDataService);
-            //sysSample = sysSampleApplicationService.GetSysSampleById(Id, out transaction);
-
-            //return View(sysSample);
-
-
+        {             
             if (Session["Code"] == null)
                 return Json(JsonHandler.CreateMessage(0, "请重新刷新验证码"), JsonRequestBehavior.AllowGet);
 
             if (Session["Code"].ToString().ToLower() != Code.ToLower())
                 return Json(JsonHandler.CreateMessage(0, "验证码错误"), JsonRequestBehavior.AllowGet);
-
-
-            TransactionalInformation transaction;
-
-            AccountViewModel accountViewModel = new AccountViewModel();
-            SysUser user = new SysUser();
-
-            ModelStateHelper.UpdateViewModel(sysUserMaintenanceDTO, user);
-
             
+            TransactionalInformation transaction;
+            //AccountViewModel accountViewModel = new AccountViewModel();
             AccountApplicationService accountApplicationService = new AccountApplicationService(accountDataService);
-            user = accountApplicationService.Login(UserName, ValueConvert.MD5(Password), out transaction);
-            //user = accountApplicationService.Login(UserName, Password, out transaction);
+                                    
+            SysUser user = accountApplicationService.Login(UserName, ValueConvert.MD5(Password), out transaction);
+            //accountViewModel.SysUser = user;
+            //accountViewModel.ReturnStatus = transaction.ReturnStatus;
+            //accountViewModel.ReturnMessage = transaction.ReturnMessage;
 
-            //return Json(JsonHandler.CreateMessage(0, transaction.ReturnMessage.ToString()), JsonRequestBehavior.AllowGet);
-
+            //if (accountViewModel.ReturnStatus == true)
+            //{
+            //    //return Json(JsonHandler.CreateMessage(0, accountViewModel.ReturnStatus.ToString()), JsonRequestBehavior.AllowGet);
+            //    return Json(JsonHandler.CreateMessage(0, user.State.ToString()), JsonRequestBehavior.AllowGet);
+            //}
+                       
+                        
             if (user == null)
-            {                
+            {
                 return Json(JsonHandler.CreateMessage(0, "用户名或密码错误"), JsonRequestBehavior.AllowGet);
-            }
+            }            
             else if (!Convert.ToBoolean(user.State))//被禁用
             {
                 return Json(JsonHandler.CreateMessage(0, "账户被系统禁用"), JsonRequestBehavior.AllowGet);
             }
 
+            
             Account account = new Account();
             account.Id = user.Id;
             account.TrueName = user.TrueName;

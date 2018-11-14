@@ -7,7 +7,6 @@ namespace JMCommon
 {
     public class JsonHandler
     {
-
         public static JsonMessage CreateMessage(int ptype, string pmessage, string pvalue)
         {
             JsonMessage json = new JsonMessage()

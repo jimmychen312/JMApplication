@@ -36,7 +36,7 @@ namespace JMApplication.ViewModels.Manage
         public string CreatePerson { get; set; }
         public DateTime CreateTime { get; set; }
         public Boolean IsLast { get; set; }
-        
+        public string State { get; set; }//treegrid
     }
 
 }

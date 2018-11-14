@@ -183,7 +183,6 @@ namespace JMApplicationService
 
             try
             {
-
                 CustomerDataService.CreateSession();
                 customerBusinessRules.ValidateCustomer(customer, CustomerDataService);
 
@@ -269,7 +268,6 @@ namespace JMApplicationService
             originalCustomerInformation.City = customer.City;
             originalCustomerInformation.Country = customer.Country;
             originalCustomerInformation.PhoneNumber = customer.PhoneNumber;
-//            originalCustomerInformation.TelePhone = customer.TelePhone;
             originalCustomerInformation.PostalCode = customer.PostalCode;
             originalCustomerInformation.Region = customer.Region;
             originalCustomerInformation.EmailAddress = customer.EmailAddress;

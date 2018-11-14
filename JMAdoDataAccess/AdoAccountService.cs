@@ -28,6 +28,7 @@ namespace JMAdoDataAccess
         public SysUser Login(string username, string pwd)
         {
             SysUser sysUser = new SysUser();
+            
             string sql = "SELECT * FROM SysUser WHERE UserName = '" + username.ToString() + "' and Password ='"+ pwd.ToString() +"'";
 
             SqlCommand sqlCommand = new SqlCommand();
@@ -43,8 +44,15 @@ namespace JMAdoDataAccess
                 sysUser.Id = dataReader.GetString("Id");
                 sysUser.TrueName = dataReader.GetString("TrueName");
                 sysUser.State = dataReader.GetBoolean("State");
-                
+                sysUser.Address = dataReader.GetString("Address");
+
+
             }
+            else
+            {
+                return null;
+                    }
+
             reader.Close();
 
             return sysUser;

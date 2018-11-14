@@ -11,9 +11,14 @@ namespace JMModels
     public class SysModule
     {
         [Display(Name = "ID")]
+        [Required( ErrorMessage ="Id不能为空！")]
+        [StringLength(50,ErrorMessage ="ID字符长度不可超过50个字符！")]
         public string Id { get; set; }
+        [Required(ErrorMessage = "名称不能为空！")]
+        [StringLength(200, ErrorMessage = "名称字符长度不可超过200个字符！")]
         [Display(Name = "名称")]
         public string Name { get; set; }
+        [StringLength(200, ErrorMessage = "别名字符长度不可超过200个字符！")]
         [Display(Name = "别名")]
         public string EnglishName { get; set; }
         [Display(Name = "上级ID")]
@@ -28,7 +33,7 @@ namespace JMModels
         public string Remark { get; set; }
         [Display(Name = "状态")]
         public bool Enable { get; set; }
-        [Display(Name = "创建人")]
+        [Display(Name = "创建人")] 
         public string CreatePerson { get; set; }
         [Display(Name = "创建时间")]
         public DateTime? CreateTime { get; set; }
@@ -53,6 +58,6 @@ namespace JMModels
         public string CreatePerson { get; set; }
         public DateTime? CreateTime { get; set; }
         public bool IsLast { get; set; }
-       
+        public string State { get; set; }//treegrid
     }
 }

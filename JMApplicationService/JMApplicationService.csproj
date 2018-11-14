@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SysModuletestApplicationService.cs" />
     <Compile Include="PaymentTypeApplicationService.cs" />
     <Compile Include="SysModuleApplicationService.cs" />
     <Compile Include="SysModuleOperateApplicationService.cs" />

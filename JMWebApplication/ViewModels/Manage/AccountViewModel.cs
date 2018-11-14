@@ -9,12 +9,10 @@ namespace JMApplication.ViewModels.Manage
     public class AccountViewModel : TransactionalInformation
     {
         public SysUser SysUser;
-        //public List<PaymentType> PaymentTypes;
-
+        
         public AccountViewModel()
         {
             SysUser = new SysUser();
-            //PaymentTypes = new List<PaymentType>();
         }        
     }
     
@@ -22,7 +20,7 @@ namespace JMApplication.ViewModels.Manage
     {
         public string UserName { get; set; }
         public string Password { get; set; }
-               
+        public Boolean State { get; set; }
     }
      
 }

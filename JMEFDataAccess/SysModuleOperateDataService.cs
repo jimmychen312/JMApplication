@@ -29,8 +29,7 @@ namespace JMEFDataAccess
         //    }
 
         public List<SysModuleOperate> GetModuleOperateList()
-        {
-            
+        {            
             var SysModuleOperatesQuery = dbConnection.SysModuleOperates.AsQueryable();
             var SysModuleOperatesQuerys = (from p in SysModuleOperatesQuery select p ).ToList();
 
@@ -38,49 +37,35 @@ namespace JMEFDataAccess
 
             return SysModuleOperatesQuerys;
         }
+        
+        public void CreateSysModuleOperate(SysModuleOperate sysModuleOperate)
+        {
+            dbConnection.SysModuleOperates.Add(sysModuleOperate);
+        }
 
-
-        public int CreateSysModuleOperate(SysModuleOperate entity)
+        public int DeleteSysModuleOperate(string id)
+        {
+            SysModuleOperate entity = dbConnection.SysModuleOperates.SingleOrDefault(a => a.Id == id);
+            if (entity != null)
             {
-                //using (DBContainer db = new DBContainer())
-                //{
-                    dbConnection.SysModuleOperates.Add(entity);
-                    return dbConnection.SaveChanges();
-                //}
-            }
-
-            public int DeleteSysModuleOperate(string id)
-            {
-                //using (DBContainer db = new DBContainer())
-                //{
-                    SysModuleOperate entity = dbConnection.SysModuleOperates.SingleOrDefault(a => a.Id == id);
-                    if (entity != null)
-                    {
-
                 dbConnection.SysModuleOperates.Remove(entity);
-                    }
-                    return dbConnection.SaveChanges();
-                //}
             }
+            return dbConnection.SaveChanges();
+        }
 
-            public SysModuleOperate GetSysModuleOperateById(string id)
-            {
-                //using (DBContainer db = new DBContainer())
-                //{
-                    return dbConnection.SysModuleOperates.SingleOrDefault(a => a.Id == id);
-                //}
-            }
 
-            public bool IsExist(string id)
-            {
-                //using (DBContainer db = new DBContainer())
-                //{
-                    SysModuleOperate entity = GetSysModuleOperateById(id);
-                    if (entity != null)
-                        return true;
-                    return false;
-                //}
-            }
+        public SysModuleOperate GetSysModuleOperateById(string id)
+        {
+            return dbConnection.SysModuleOperates.SingleOrDefault(a => a.Id == id);
+        }
+
+        public bool IsExist(string id)
+        {
+            SysModuleOperate sysModuleOperate = GetSysModuleOperateById(id);
+            if (sysModuleOperate != null)
+                return true;
+            return false;
+        }
 
             //public void Dispose()
             //{

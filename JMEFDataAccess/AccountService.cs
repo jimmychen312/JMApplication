@@ -27,10 +27,11 @@ namespace JMEFDataAccess
         /// <param name="pwd"></param>
         /// <returns></returns>
         public SysUser Login(string username,string pwd)
-        {            
-            var userInformation = dbConnection.SysUsers.First(c => c.UserName == username && c.Password == pwd);
+        {
+            var userInformation = dbConnection.SysUsers.First(u => u.UserName == username && u.Password == pwd);
             SysUser user = userInformation as SysUser;
             return user;
+
         }
 
     }

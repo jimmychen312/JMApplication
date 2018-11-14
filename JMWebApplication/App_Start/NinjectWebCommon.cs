@@ -120,7 +120,7 @@ namespace JMWebApplication.App_Start
         {
             kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMEFDataAccess.EFCustomerService>();
             kernel.Bind<JMDataServiceInterface.IPaymentTypeDataService>().To<JMEFDataAccess.EFPaymentTypeService>();
-            kernel.Bind<JMDataServiceInterface.ISysModuletestDataService>().To<JMEFDataAccess.EFSysModuletestDateService>();
+            
             //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMMockedDataAccess.MockedCustomerService>();
             //kernel.Bind<JMDataServiceInterface.IAccountDataService>().To<JMEFDataAccess.EFAccountService>();
             //kernel.Bind<JMDataServiceInterface.ICustomerDataService>().To<JMAdoDataAccess.AdoCustomerService>();

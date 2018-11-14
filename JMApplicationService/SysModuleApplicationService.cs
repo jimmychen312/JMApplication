@@ -175,6 +175,10 @@ namespace JMApplicationService
                 SysModuleDataService.CommitTransaction(true);
                 transaction.ReturnStatus = true;
                 transaction.ReturnMessage.Add("Customer successfully created at " + sysModule.CreateTime.ToString());
+
+                //分配给角色
+                SysModuleDataService.InsertSysRight();
+                
                 //}
                 //else
                 //{
@@ -255,7 +259,8 @@ namespace JMApplicationService
 
 
         //}
-        //public bool DeleteSysModuleById(ref ValidationErrors errors, string id)
+
+        //public bool DeleteSysModuleById( string id,out TransactionalInformation transaction)
         //{
         //    try
         //    {
@@ -275,11 +280,11 @@ namespace JMApplicationService
         //        //清理无用的项
         //        SysModuleDataService.ClearUnusedRightOperate();
 
-        //            return true;
+        //        return true;
         //        //}
         //        //else
         //        //{
-        //            //return false;
+        //        //return false;
         //        //}
         //    }
         //    catch (Exception ex)
@@ -290,43 +295,102 @@ namespace JMApplicationService
         //    }
         //}
 
-        //public bool UpdateSysModule(ref ValidationErrors errors, SysModule model)
-        //{
-        //    try
-        //    {
-        //        SysModule entity = SysModuleDataService.GetSysModuleById(model.Id);
-        //        if (entity == null)
-        //        {
-        //            errors.Add(Suggestion.Disable);
-        //            return false;
-        //        }
-        //        entity.Name = model.Name;
-        //        entity.EnglishName = model.EnglishName;
-        //        entity.ParentId = model.ParentId;
-        //        entity.Url = model.Url;
-        //        entity.Iconic = model.Iconic;
-        //        entity.Sort = model.Sort;
-        //        entity.Remark = model.Remark;
-        //        entity.Enable = model.Enable;
-        //        entity.IsLast = model.IsLast;
+        public void UpdateSysModule(SysModule sysModule, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+            //CustomerBusinessRules customerBusinessRules = new CustomerBusinessRules();
 
-        //        if (SysModuleDataService.UpdateSysModule(entity) == 1)
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            errors.Add(Suggestion.EditFail);
-        //            return false;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        errors.Add(ex.Message);
-        //        //ExceptionHander.WriteException(ex);
-        //        return false;
-        //    }
-        //}
+            try
+            {
+                SysModuleDataService.CreateSession();
+                //customerBusinessRules.ValidateCustomer(customer, CustomerDataService);
+
+                //if (customerBusinessRules.ValidationStatus == true)
+                //{
+                SysModule originalSysModuleInformation = SysModuleDataService.GetSysModuleById(sysModule.Id);
+                PopulateSysModuleInformation(sysModule, originalSysModuleInformation);
+                SysModuleDataService.BeginTransaction();
+                SysModuleDataService.UpdateSysModule(originalSysModuleInformation);
+                SysModuleDataService.CommitTransaction(true);
+                transaction.ReturnStatus = true;
+                transaction.ReturnMessage.Add("SysModule successfully updated at " + DateTime.Now.ToString());
+                //}
+                //else
+                //{
+                //    transaction.ReturnStatus = customerBusinessRules.ValidationStatus;
+                //    transaction.ReturnMessage = customerBusinessRules.ValidationMessage;
+                //    transaction.ValidationErrors = customerBusinessRules.ValidationErrors;
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                SysModuleDataService.RollbackTransaction(true);
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+            }
+            finally
+            {
+                SysModuleDataService.CloseSession();
+            }
+        }
+
+        /// <summary>
+        /// Get SysModule By SysModule ID
+        /// </summary>
+        /// <param name="sysModuleID"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public SysModule GetSysModuleBySysModuleID(string sysModuleID, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            try
+            {
+                SysModuleDataService.CreateSession();
+                SysModule sysModule = SysModuleDataService.GetSysModuleById(sysModuleID);
+                transaction.ReturnStatus = true;
+                return sysModule;
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+                return null;
+            }
+            finally
+            {
+                SysModuleDataService.CloseSession();
+            }
+
+        }
+
+
+        /// <summary>
+        /// Populate SysModule Information
+        /// </summary>
+        /// <param name="sysModule"></param>
+        /// <param name="originalSysModuleInformation"></param>
+        private void PopulateSysModuleInformation(SysModule sysModule, SysModule originalSysModuleInformation)
+        {
+            originalSysModuleInformation.Name = sysModule.Name;
+            originalSysModuleInformation.EnglishName = sysModule.EnglishName;
+            originalSysModuleInformation.ParentId = sysModule.ParentId;
+            originalSysModuleInformation.Url = sysModule.Url;
+            originalSysModuleInformation.Iconic = sysModule.Iconic;
+            originalSysModuleInformation.Sort = sysModule.Sort;
+            originalSysModuleInformation.Remark = sysModule.Remark;
+            originalSysModuleInformation.Enable = sysModule.Enable;
+            originalSysModuleInformation.CreatePerson = sysModule.CreatePerson;
+            originalSysModuleInformation.CreateTime = sysModule.CreateTime;
+            originalSysModuleInformation.IsLast = sysModule.IsLast;
+            originalSysModuleInformation.State = sysModule.State;
+            
+        }
 
         //public SysModule GetById(string id)
         //{

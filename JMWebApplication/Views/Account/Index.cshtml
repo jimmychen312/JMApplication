@@ -88,7 +88,6 @@
             //alert(1);
             $.post('/Account/Login', { UserName: $("#UserName").val(), Password: $("#Password").val(), Code: $("#ValidateCode").val() },
                 function (data) {
-
                     if (data.type == "1") {
                         window.location = "/Manage/Index"
                     } else {

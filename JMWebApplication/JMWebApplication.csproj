@@ -342,7 +342,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseException.cs" />
-    <Compile Include="Controllers\SysModuletestController.cs" />
     <Compile Include="Controllers\PaymentTypeController.cs" />
     <Compile Include="Controllers\Sys\SysExceptionController.cs" />
     <Compile Include="Controllers\Sys\SysLogController.cs" />
@@ -380,6 +379,7 @@
     <Compile Include="ViewModels\Manage\SysExceptionMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\AccountViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysLogMaintenanceViewModel.cs" />
+    <Compile Include="ViewModels\Manage\SysModuleOperateMaintenancViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysRightInquiryViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleMaintenanceViewModel.cs" />
     <Compile Include="ViewModels\Manage\SysSampleInquiryViewModel.cs" />
@@ -1131,7 +1131,6 @@
     <Content Include="Views\SysModule\Create.cshtml" />
     <Content Include="Views\SysModule\CreateOpt.cshtml" />
     <Content Include="Views\PaymentType\Index.cshtml" />
-    <Content Include="Views\SysModuletest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

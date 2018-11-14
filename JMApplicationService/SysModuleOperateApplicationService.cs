@@ -114,39 +114,66 @@ namespace JMApplicationService
         //    return modelList;
         //}
 
-        public bool CreateSysModuleOperate(ref ValidationErrors errors, SysModuleOperate model)
+        public void CreateSysModuleOperate(SysModuleOperate sysModuleOperate, out TransactionalInformation transaction)
         {
+            transaction = new TransactionalInformation();
+            //CustomerBusinessRules customerBusinessRules = new CustomerBusinessRules();
+
             try
             {
-                SysModuleOperate entity = SysModuleOperateDataService.GetSysModuleOperateById(model.Id);
-                if (entity != null)
-                {
-                    errors.Add(Suggestion.PrimaryRepeat);
-                    return false;
-                }
-                entity = new SysModuleOperate();
-                entity.Id = model.Id;
-                entity.Name = model.Name;
-                entity.KeyCode = model.KeyCode;
-                entity.ModuleId = model.ModuleId;
-                entity.IsValid = model.IsValid;
-                entity.Sort = model.Sort;
-                if (SysModuleOperateDataService.CreateSysModuleOperate(entity) == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    errors.Add(Suggestion.InsertFail);
-                    return false;
-                }
+                SysModuleOperateDataService.CreateSession();
+                SysModuleOperateDataService.BeginTransaction();
+                SysModuleOperateDataService.CreateSysModuleOperate(sysModuleOperate);
+                SysModuleOperateDataService.CommitTransaction(true);
+                transaction.ReturnStatus = true;
+                transaction.ReturnMessage.Add("sysModuleOperate successfully created");
+                //transaction.ReturnMessage.Add(Suggestion.InsertSucceed); 
+                                
             }
             catch (Exception ex)
             {
-                errors.Add(ex.Message);
-                //ExceptionHander.WriteException(ex);
-                return false;
+                SysModuleOperateDataService.RollbackTransaction(true);
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
             }
+            finally
+            {
+                SysModuleOperateDataService.CloseSession();
+            }
+
+            //try
+            //{
+            //    SysModuleOperate entity = SysModuleOperateDataService.GetSysModuleOperateById(sysModuleOperate.Id);
+            //    if (entity != null)
+            //    {
+            //        errors.Add(Suggestion.PrimaryRepeat);
+            //        return false;
+            //    }
+            //    entity = new SysModuleOperate();
+            //    entity.Id = model.Id;
+            //    entity.Name = model.Name;
+            //    entity.KeyCode = model.KeyCode;
+            //    entity.ModuleId = model.ModuleId;
+            //    entity.IsValid = model.IsValid;
+            //    entity.Sort = model.Sort;
+            //    if (SysModuleOperateDataService.CreateSysModuleOperate(entity) == 1)
+            //    {
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        errors.Add(Suggestion.InsertFail);
+            //        return false;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    errors.Add(ex.Message);
+            //    //ExceptionHander.WriteException(ex);
+            //    return false;
+            //}
         }
 
         public bool DeleteSysModuleOperate(ref ValidationErrors errors, string id)
@@ -181,29 +208,91 @@ namespace JMApplicationService
             return false;
         }
 
-        public SysModuleOperate GetSysModuleOperateById(string id)
+
+        /// <summary>
+        /// Get Customer By Customer ID
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public SysModuleOperate GetSysModuleOperateById(string id, out TransactionalInformation transaction)
         {
+            transaction = new TransactionalInformation();
             if (IsExist(id))
             {
-                SysModuleOperate entity = SysModuleOperateDataService.GetSysModuleOperateById(id);
-                SysModuleOperate model = new SysModuleOperate();
-                model.Id = entity.Id;
-                model.Name = entity.Name;
-                model.KeyCode = entity.KeyCode;
-                model.ModuleId = entity.ModuleId;
-                model.IsValid = entity.IsValid;
-                model.Sort = entity.Sort;
-                return model;
+                try
+                {
+                SysModuleOperateDataService.CreateSession();
+                SysModuleOperate sysModuleOperate = SysModuleOperateDataService.GetSysModuleOperateById(id);
+                transaction.ReturnStatus = true;
+                return sysModuleOperate;
+                }
+                catch (Exception ex)
+                {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+                return null;
+                }
+                finally
+                {
+                    SysModuleOperateDataService.CloseSession();
+                }
             }
             else
             {
                 return null;
             }
+
         }
+
+
+        //public SysModuleOperate GetSysModuleOperateById(string id)
+        //{
+        //    if (IsExist(id))
+        //    {
+        //        SysModuleOperate entity = SysModuleOperateDataService.GetSysModuleOperateById(id);
+        //        SysModuleOperate model = new SysModuleOperate();
+        //        model.Id = entity.Id;
+        //        model.Name = entity.Name;
+        //        model.KeyCode = entity.KeyCode;
+        //        model.ModuleId = entity.ModuleId;
+        //        model.IsValid = entity.IsValid;
+        //        model.Sort = entity.Sort;
+        //        return model;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
 
         public bool IsExist(string id)
         {
-            return SysModuleOperateDataService.IsExist(id);
+           // transaction = new TransactionalInformation();
+
+            try
+            {
+                SysModuleOperateDataService.CreateSession();
+                bool IsExist = SysModuleOperateDataService.IsExist(id);
+                //transaction.ReturnStatus = true;
+                return IsExist;
+            }
+            catch (Exception ex)
+            {
+                //transaction.ReturnMessage = new List<string>();
+                //string errorMessage = ex.Message;
+                //transaction.ReturnStatus = false;
+                //transaction.ReturnMessage.Add(errorMessage);
+                return false;
+            }
+            finally
+            {
+                SysModuleOperateDataService.CloseSession();
+            }
+
+            
         }
     }
 }

@@ -81,32 +81,23 @@ namespace JMDataServiceInterface
         //List<SysModule> GetSysModuleBySystem(string parentId);
          void CreateSysModule(SysModule sysModule);
         //void DeleteSysModuleById(string Id);
-        //int UpdateSysModule(SysModule sysModule);
+        int UpdateSysModule(SysModule sysModule);
         SysModule GetSysModuleById(string Id);
         //bool IsExist(string Id);
         void InsertSysRight();
         //void ClearUnusedRightOperate();
     }
-
-    //权限管理接口EF
-    public interface ISysModuletestDataService : IDataService, IDisposable
-    {
-        
-        List<SysModule> GetSysModuleList();
-        
-    }
-
+       
     public interface ISysModuleOperateDataService : IDataService, IDisposable
     {
         //IQueryable<SysModuleOperate> GetModuleOperateList();
         List<SysModuleOperate> GetModuleOperateList();
-        int CreateSysModuleOperate(SysModuleOperate sysModuleOperate);
+        void CreateSysModuleOperate(SysModuleOperate sysModuleOperate);
         int DeleteSysModuleOperate(string id);
         SysModuleOperate GetSysModuleOperateById(string id);
         bool IsExist(string id);
     }
-
-
+    
     //系统日志
     public interface ISysLogDataService : IDataService, IDisposable
     {
